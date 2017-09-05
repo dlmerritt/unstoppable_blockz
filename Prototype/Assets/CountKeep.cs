@@ -10,7 +10,8 @@ public class CountKeep : MonoBehaviour {
         int min = GameObject.Find("LevelContainer").GetComponent<LevelCount>().CurrentLevel -1;
         int max = min + 2;
         Hits = Random.Range(min, max);
-        if (Hits == min) {
+        bool hasGreen = transform.parent.parent.GetComponent<DestroyRow>().hasGreen;
+        if (Hits == min && !hasGreen) {
             int BecomeBall = Random.Range(0, 2);
             if (BecomeBall == 1)
             {

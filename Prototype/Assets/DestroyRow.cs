@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class DestroyRow : MonoBehaviour {
 
+    public bool hasGreen = false;
+
 	// Use this for initialization
 	void Start () {
 		
