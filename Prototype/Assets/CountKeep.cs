@@ -5,13 +5,18 @@ using UnityEngine.UI;
 public class CountKeep : MonoBehaviour {
     public int Hits = 1;
     
+
+    
 	// Use this for initialization
 	void Start () {
+
+        GetComponent<Text>().color = Color.white;
+
         int min = GameObject.Find("LevelContainer").GetComponent<LevelCount>().CurrentLevel -1;
         int max = min + 2;
         Hits = Random.Range(min, max);
-        bool hasGreen = transform.parent.parent.GetComponent<DestroyRow>().hasGreen;
-        if (Hits == min && !hasGreen) {
+        // hasGreen = transform.parent.parent.GetComponent<DestroyRow>().hasGreen;
+        if (Hits == min) {
             int BecomeBall = Random.Range(0, 2);
             if (BecomeBall == 1)
             {
@@ -39,6 +44,6 @@ public class CountKeep : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+
 	}
 }
