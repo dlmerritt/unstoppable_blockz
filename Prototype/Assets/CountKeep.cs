@@ -20,9 +20,10 @@ public class CountKeep : MonoBehaviour {
             int BecomeBall = Random.Range(0, 2);
             if (BecomeBall == 1)
             {
-                GetComponent<Text>().text = "";
+                //GetComponent<Text>().text = "";
                 gameObject.transform.parent.parent.GetComponent<SpriteRenderer>().color = Color.green;
                 gameObject.transform.parent.parent.tag = "NewBallBrick";
+                GetComponent<Text>().text = (Hits+1).ToString();
             }
             else
             {
