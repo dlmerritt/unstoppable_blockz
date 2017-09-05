@@ -32,10 +32,7 @@ public class Ball : MonoBehaviour {
     private void Update()
     {
 
-        if (rigid.velocity.magnitude < 1) {
-            transform.position = resetPos.position;
-            touchedFloor = true;
-        }
+
 
 
         if (!isBreakingStuff)
@@ -110,6 +107,7 @@ public class Ball : MonoBehaviour {
 
     private void SendBallInDirection(Vector3 dir)
     {
+        touchedFloor = false;
         rigid.gravityScale = .1f;
         rigid.velocity = dir * speed;
 
@@ -121,6 +119,7 @@ public class Ball : MonoBehaviour {
          rigid.velocity = Vector2.zero;
         rigid.gravityScale = 0;
         touchedFloor = true;
+        transform.position = resetPos.position;
 
 
 
