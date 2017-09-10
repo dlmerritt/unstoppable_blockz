@@ -19,7 +19,7 @@ public class LevelCount : MonoBehaviour {
     private float currentSpawnY;
     private int score;
     public  float DISTANCE_BETWEEN_BLOCKS = .37f;
-
+    
     // Use this for initialization
 
     void Start () {

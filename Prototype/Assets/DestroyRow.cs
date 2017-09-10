@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class DestroyRow : MonoBehaviour {
 
-    public bool hasGreen = false;
-
 	// Use this for initialization
 	void Start () {
-		
+        int randomChild = Random.Range(0, transform.childCount);
+        transform.GetChild(randomChild).GetChild(0).GetChild(0).GetComponent<CountKeep>().ConvertToBall();
+
 	}
 	
 	// Update is called once per frame

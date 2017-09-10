@@ -57,10 +57,14 @@ public class CloneBall : MonoBehaviour {
         }
         if (collision.gameObject.CompareTag("NewBallBrick"))
         {
-            GameController.currentBalls += 1;
-            ballAmount.text = GameController.currentBalls.ToString() + " x";
-            currentTime = 0;
-            Destroy(collision.gameObject);
+            CountKeep controller = collision.gameObject.transform.GetChild(0).GetChild(0).GetComponent<CountKeep>();
+            controller.ReduceCount();
+            if (controller.Hits <= 0)
+            {
+                GameController.currentBalls += 1;
+                ballAmount.text = GameController.currentBalls.ToString() + " x";
+                Destroy(collision.gameObject);
+            }
         }
     }
 }
