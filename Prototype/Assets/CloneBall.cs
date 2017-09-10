@@ -54,6 +54,8 @@ public class CloneBall : MonoBehaviour {
         {
             collision.gameObject.transform.GetChild(0).GetChild(0).GetComponent<CountKeep>().ReduceCount();
             currentTime = 0;
+
+
         }
         if (collision.gameObject.CompareTag("NewBallBrick"))
         {
