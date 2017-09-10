@@ -35,6 +35,8 @@ public class breakBlocks : MonoBehaviour {
             controller.ReduceCount();
             if (controller.Hits <= 0)
             {
+
+
                 GameController.currentBalls += 1;
                 ballAmount.text = GameController.currentBalls.ToString() + " x";
                 Destroy(collision.gameObject);
