@@ -19,6 +19,20 @@ Prototype/[Bb]uild/
 Prototype/[Bb]uilds/
 Prototype/Assets/AssetStoreTools*
 
+\Prototype\[Ll]ibrary\
+\Prototype\[Tt]emp\
+\Prototype\[Oo]bj\
+\Prototype\[Bb]uild\
+\Prototype\[Bb]uilds\
+\Prototype\Assets\AssetStoreTools*
+
+Prototype\[Ll]ibrary\
+Prototype\[Tt]emp\
+Prototype\[Oo]bj\
+Prototype\[Bb]uild\
+Prototype\[Bb]uilds\
+Prototype\Assets\AssetStoreTools*
+
 # Visual Studio 2015 cache directory
 /.vs/
 /Prototype/.vs/
@@ -38,6 +52,7 @@ ExportedObj/
 *.pdb
 *.log
 *.json
+.suo
 UnityLockfile
 
 # Unity3D generated meta files
