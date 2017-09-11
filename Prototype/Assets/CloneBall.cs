@@ -8,6 +8,8 @@ public class CloneBall : MonoBehaviour {
     private LevelCount GameController;
     private Text ballAmount;
 
+
+
     public float timetokill = 1;
     private float currentTime;
     Ball MainBall;
