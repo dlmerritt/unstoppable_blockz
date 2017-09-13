@@ -24,12 +24,12 @@ public class breakBlocks : MonoBehaviour {
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Bricks"))
+        if (collision.gameObject.CompareTag("Bricks") && CompareTag("Clone"))
         {
             collision.gameObject.transform.GetChild(0).GetChild(0).GetComponent<CountKeep>().ReduceCount();
      
         }
-        if (collision.gameObject.CompareTag("NewBallBrick"))
+        if (collision.gameObject.CompareTag("NewBallBrick") && CompareTag("Clone"))
         {
             CountKeep controller = collision.gameObject.transform.GetChild(0).GetChild(0).GetComponent<CountKeep>();
             controller.ReduceCount();

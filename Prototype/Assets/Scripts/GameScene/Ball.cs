@@ -22,10 +22,14 @@ public class Ball : MonoBehaviour {
     public int CurrentBalls;
     private bool touchedFloor;
 
+    private SpriteRenderer sprite;
+
     private void Start()
     {
         rigid = GetComponent<Rigidbody2D>();
         ballsPreview.parent.gameObject.SetActive(false);
+        sprite = GetComponent<SpriteRenderer>();
+        sprite.enabled = true;
         //currentSpawnY = 0.45f;
     }
 
@@ -37,14 +41,23 @@ public class Ball : MonoBehaviour {
 
         if (!isBreakingStuff)
         {
+            
             rigid.gravityScale = 0;
             PoolInput();
             
         }
-        if (CurrentBalls <= 0 && touchedFloor && GameObject.FindGameObjectsWithTag("Clone").Length == 0)
+        if (CurrentBalls <= 0 && GameObject.FindGameObjectsWithTag("Clone").Length == 0)
         {
-
-            isBreakingStuff = false;
+            if (touchedFloor)
+            {
+                resetPos.position = transform.position;
+                isBreakingStuff = false;
+            }
+            else {
+                transform.position = resetPos.position;
+            }
+            
+            
         }
 
     }
@@ -102,24 +115,32 @@ public class Ball : MonoBehaviour {
             bclone.GetComponent<CloneBall>().speed = speed;
             bclone.GetComponent<CloneBall>().SendBallInDirection(n);
         }
+        if (touchedFloor) {
+            resetPos.position = transform.position;
+        }
         
     }
 
     private void SendBallInDirection(Vector3 dir)
     {
+        sprite.enabled = false;
         touchedFloor = false;
-        rigid.gravityScale = .1f;
-        rigid.velocity = dir * speed;
+        rigid.gravityScale = .8f;
+        rigid.velocity = dir * 50;
 
     }
 
     private void TouchFloor()
     {
-        
-         rigid.velocity = Vector2.zero;
+        sprite.enabled = true;
+        rigid.velocity = Vector2.zero;
         rigid.gravityScale = 0;
         touchedFloor = true;
-        transform.position = resetPos.position;
+        Vector3 temp = transform.position;
+        temp.y = -1.606f;
+        transform.position = temp;
+
+
 
 
 

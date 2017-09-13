@@ -19,6 +19,7 @@ public class LevelCount : MonoBehaviour {
     private float currentSpawnY;
     private int score;
     public  float DISTANCE_BETWEEN_BLOCKS = .37f;
+    public Transform LowestPosition;
     
     // Use this for initialization
 
@@ -30,6 +31,17 @@ public class LevelCount : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        if (transform.childCount > 0)
+        {
+            LowestPosition = transform.GetChild(0);
+            if (LowestPosition.childCount > 0)
+            {
+                LowestPosition = LowestPosition.GetChild(0);
+            }
+        }
+        else {
+            LowestPosition = null;
+        }
         currentTime += Time.deltaTime;
         if (currentTime > spawnTime)
         {
