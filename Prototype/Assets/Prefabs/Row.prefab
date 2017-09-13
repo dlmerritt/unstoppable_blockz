@@ -851,6 +851,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Hits: 1
+  isBallBlock: 0
 --- !u!114 &114078457482107558
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1019,6 +1020,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Hits: 1
+  isBallBlock: 0
 --- !u!114 &114223198078045402
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1116,7 +1118,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43cdac900ee6a6740a3299cbde197226, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hasGreen: 0
 --- !u!114 &114593137231096016
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1305,6 +1306,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Hits: 1
+  isBallBlock: 0
 --- !u!114 &114723270409446190
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1317,6 +1319,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Hits: 1
+  isBallBlock: 0
 --- !u!114 &114741223134603644
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1329,6 +1332,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Hits: 1
+  isBallBlock: 0
 --- !u!114 &114824485141630764
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1341,6 +1345,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Hits: 1
+  isBallBlock: 0
 --- !u!114 &114866907570417080
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1423,6 +1428,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Hits: 1
+  isBallBlock: 0
 --- !u!114 &114962010538443956
 MonoBehaviour:
   m_ObjectHideFlags: 1
