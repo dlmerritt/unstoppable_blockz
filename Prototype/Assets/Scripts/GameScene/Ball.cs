@@ -11,8 +11,12 @@ public class Ball : MonoBehaviour {
     public Transform resetPos;
     private bool isBreakingStuff;
     private Vector2 landingPosition;
-    
 
+    private bool GameOver;
+    public bool gameOver {
+        get { return GameOver; }
+        set { GameOver = value; }
+    }
     private Rigidbody2D rigid;
     public float speed;
 
@@ -20,16 +24,16 @@ public class Ball : MonoBehaviour {
     public GameObject tutorialContainer;
 
     public int CurrentBalls;
-    private bool touchedFloor;
-
+    public bool touchedFloor;
     private SpriteRenderer sprite;
-
+    private Vector3 currentPos;
     private void Start()
     {
         rigid = GetComponent<Rigidbody2D>();
         ballsPreview.parent.gameObject.SetActive(false);
         sprite = GetComponent<SpriteRenderer>();
         sprite.enabled = true;
+        TouchFloor();
         //currentSpawnY = 0.45f;
     }
 
@@ -37,27 +41,37 @@ public class Ball : MonoBehaviour {
     {
 
 
-
-
-        if (!isBreakingStuff)
+        if (!gameOver)
         {
-            
-            rigid.gravityScale = 0;
-            PoolInput();
-            
-        }
-        if (CurrentBalls <= 0 && GameObject.FindGameObjectsWithTag("Clone").Length == 0)
-        {
-            if (touchedFloor)
+
+            if (!isBreakingStuff)
             {
-                resetPos.position = transform.position;
-                isBreakingStuff = false;
+                GetComponent<SpriteRenderer>().enabled = true;
+                rigid.gravityScale = 0;
+                PoolInput();
+
             }
-            else {
+            if (touchedFloor) {
                 transform.position = resetPos.position;
+                sprite.enabled = true;
+                
             }
-            
-            
+            if (CurrentBalls <= 0 && GameObject.FindGameObjectsWithTag("Clone").Length == 0)
+            {
+                if (touchedFloor)
+                {
+
+                    //resetPos.position = transform.position;
+                    
+                    isBreakingStuff = false;
+                }
+                else
+                {
+                    transform.position = resetPos.position;
+                }
+
+
+            }
         }
 
     }
@@ -87,8 +101,10 @@ public class Ball : MonoBehaviour {
                 {
                     tutorialContainer.SetActive(false);
                     isBreakingStuff = true;
-                    SendBallInDirection(sd.normalized);
-                    
+                    //SendBallInDirection(sd.normalized);
+                    currentPos = resetPos.position;
+                    touchedFloor = false;
+                    GetComponent<SpriteRenderer>().enabled = false;
                     StartCoroutine(ballWait(sd.normalized));
                     ballsPreview.parent.gameObject.SetActive(false);
                 }
@@ -110,14 +126,12 @@ public class Ball : MonoBehaviour {
         for (int i = 0; i < GameController.currentBalls - 1; i++)
         {
             yield return new WaitForSeconds(0.05f);
-            GameObject bclone = Instantiate(BallClones, resetPos.position, resetPos.rotation);
+            GameObject bclone = Instantiate(BallClones, currentPos, resetPos.rotation);
             bclone.GetComponent<Rigidbody2D>().gravityScale = .1f;
             bclone.GetComponent<CloneBall>().speed = speed;
             bclone.GetComponent<CloneBall>().SendBallInDirection(n);
         }
-        if (touchedFloor) {
-            resetPos.position = transform.position;
-        }
+
         
     }
 
@@ -126,7 +140,7 @@ public class Ball : MonoBehaviour {
         sprite.enabled = false;
         touchedFloor = false;
         rigid.gravityScale = .8f;
-        rigid.velocity = dir * 50;
+        rigid.velocity = dir * speed;
 
     }
 
@@ -140,24 +154,22 @@ public class Ball : MonoBehaviour {
         temp.y = -1.606f;
         transform.position = temp;
 
-
-
-
-
     }
 
 
+    void Touched() {
+        touchedFloor = true;
+    }
 
 
-
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.tag == "Floor")
-        {
-            TouchFloor();
+   // void OnCollisionEnter2D(Collision2D collision)
+    //{
+        //if (collision.gameObject.tag == "Floor")
+       // {
+            //TouchFloor();
 
             //Debug.Log("This is working");
-        }
-    }
+       // }
+ //   }
 
 }

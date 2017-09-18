@@ -13,6 +13,8 @@ public class CloneBall : MonoBehaviour {
     public float diff;
     public bool ded;
     private Transform ResetPoint;
+    bool gameOver = false;
+    bool touchedandPassed = false;
     private void Start()
     {
         ResetPoint = GameObject.Find("Reset").GetComponent<Transform>();
@@ -28,47 +30,66 @@ public class CloneBall : MonoBehaviour {
         rigid.velocity = dir * speed;
 
     }
+    public void GameOver() {
+        rigid.velocity = Vector3.zero;
+        rigid.gravityScale = 0;
+        rigid.isKinematic = true;
+        gameOver = true;
+    }
     private void Update()
     {
-        if (ded)
+        if (!gameOver)
         {
-            rigid.velocity = Vector3.zero;
-            rigid.gravityScale = 0;
-            rigid.isKinematic = true;
-            transform.position = Vector3.MoveTowards(transform.position, ResetPoint.position, 5 * Time.deltaTime);
-            if (Vector3.Distance(transform.position, ResetPoint.position) < .1f) {
-                Destroy(gameObject);
-            }
-        }
-        else
-        {
-            if (GameController.LowestPosition)
+            if (ded && MainBall.touchedFloor)
             {
-                //float curlowest = GameController.LowestPosition.transform.position.y - GameController.DISTANCE_BETWEEN_BLOCKS;
-                if (passed)
+                rigid.velocity = Vector3.zero;
+                rigid.gravityScale = 0;
+                rigid.isKinematic = true;
+                transform.position = Vector3.MoveTowards(transform.position, ResetPoint.position, 5 * Time.deltaTime);
+                if (Vector3.Distance(transform.position, ResetPoint.position) < .1f)
                 {
-                    if (transform.position.y < GameController.LowestPosition.transform.position.y)
-                    {
-                        MainBall.CurrentBalls -= 1;
-                        ded = true;
-                    }
-                }
-                else
-                {
-                    if (transform.position.y > GameController.LowestPosition.transform.position.y)
-                    {
-                        passed = true;
-                    }
-                    diff = transform.position.y - lastPos;
-                    if (diff < 0)
-                    {
-                        passed = true;
-                    }
-
-
+                    Destroy(gameObject);
                 }
             }
-            lastPos = transform.position.y;
+            else
+            {
+                if (GameController.LowestPosition)
+                {
+                    //float curlowest = GameController.LowestPosition.transform.position.y - GameController.DISTANCE_BETWEEN_BLOCKS;
+                    if (passed)
+                    {
+                        if (transform.position.y < GameController.LowestPosition.transform.position.y - GameController.DISTANCE_BETWEEN_BLOCKS)
+                        {
+                            MainBall.CurrentBalls -= 1;
+                            ded = true;
+                            if (!touchedandPassed)
+                            {
+                                MainBall.touchedFloor = true;
+
+                            }
+                        }
+                        else {
+                            ded = false;
+                        }
+                    }
+                    else
+                    {
+                        if (transform.position.y > GameController.LowestPosition.transform.position.y - GameController.DISTANCE_BETWEEN_BLOCKS)
+                        {
+                            passed = true;
+                            touchedandPassed = true;
+                        }
+                        diff = transform.position.y - lastPos;
+                        if (diff < 0)
+                        {
+                            passed = true;
+                        }
+
+
+                    }
+                }
+                lastPos = transform.position.y;
+            }
         }
 
     }
@@ -80,7 +101,14 @@ public class CloneBall : MonoBehaviour {
         if (collision.gameObject.tag == "Floor")
         {
             MainBall.CurrentBalls -= 1;
-            Destroy(gameObject);
+            Vector3 temp = transform.position;
+            if (!MainBall.touchedFloor)
+            {
+                temp.y = ResetPoint.position.y;
+                ResetPoint.position = temp;
+                Destroy(gameObject);
+                MainBall.touchedFloor = true;
+            }
 
 
             //Debug.Log("This is working");
