@@ -27,6 +27,7 @@ public class Ball : MonoBehaviour {
     public bool touchedFloor;
     private SpriteRenderer sprite;
     private Vector3 currentPos;
+    private MobileInput mInput;
     private void Start()
     {
         rigid = GetComponent<Rigidbody2D>();
@@ -34,13 +35,15 @@ public class Ball : MonoBehaviour {
         sprite = GetComponent<SpriteRenderer>();
         sprite.enabled = true;
         TouchFloor();
+        gameOver = false;
+        isBreakingStuff = false;
+        mInput = GameObject.Find("GameController").GetComponent<MobileInput>();
         //currentSpawnY = 0.45f;
     }
 
     private void Update()
     {
-
-
+        
         if (!gameOver)
         {
 
@@ -80,12 +83,12 @@ public class Ball : MonoBehaviour {
     {
         // Drag the ball around
 
-        Vector3 sd = MobileInput.Instance.swipeDelta;
+        Vector3 sd = mInput.swipeDelta;
         //sd.Set(-sd.x, -sd.y, sd.z);
 
         if (sd != Vector3.zero)
         {
-
+            Debug.Log(sd);
             //Are we dragging in the wrong direction
             if (sd.y < 1.0f)
             {
@@ -97,7 +100,7 @@ public class Ball : MonoBehaviour {
                 ballsPreview.parent.gameObject.SetActive(true);
                 ballsPreview.localScale = Vector3.Lerp(new Vector3(1, 3, 1), new Vector3(1, 10, 1), sd.magnitude / MAXIMUM_PULL);
 
-                if (MobileInput.Instance.release)
+                if (mInput.release)
                 {
                     tutorialContainer.SetActive(false);
                     isBreakingStuff = true;
@@ -122,8 +125,8 @@ public class Ball : MonoBehaviour {
     }
 
     IEnumerator  ballWait(Vector3 n) {
-        CurrentBalls = GameController.currentBalls - 1;
-        for (int i = 0; i < GameController.currentBalls - 1; i++)
+        CurrentBalls = GameController.currentBalls;
+        for (int i = 0; i < GameController.currentBalls; i++)
         {
             yield return new WaitForSeconds(0.05f);
             GameObject bclone = Instantiate(BallClones, currentPos, resetPos.rotation);

@@ -10,7 +10,11 @@ public class MobileInput : MonoSingleton<MobileInput> {
 
     private Vector2 initialPosition;
 
-
+    private void Start()
+    {
+        release = hold = tap = false;
+        swipeDelta = Vector2.zero;
+    }
 
     private void Update()
     {

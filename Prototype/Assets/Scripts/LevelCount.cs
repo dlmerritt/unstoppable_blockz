@@ -30,6 +30,8 @@ public class LevelCount : MonoBehaviour {
         rowContainer = transform;
         rowContainerStartingPosition = rowContainer.transform.position;
         currentTime = spawnTime;
+        gameOver = false;
+        currentTime = spawnTime;
     }
 	
 	// Update is called once per frame
