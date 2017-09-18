@@ -88,7 +88,6 @@ public class Ball : MonoBehaviour {
 
         if (sd != Vector3.zero)
         {
-            Debug.Log(sd);
             //Are we dragging in the wrong direction
             if (sd.y < 1.0f)
             {
