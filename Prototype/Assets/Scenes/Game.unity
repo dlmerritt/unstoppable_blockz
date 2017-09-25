@@ -911,7 +911,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnTime: 5
-  currentBalls: 20
+  currentBalls: 1
   currentLevelText: {fileID: 1129276660}
   CurrentLevel: 0
   rowPrefab: {fileID: 1439861374997916, guid: 91f5336def37b3e48a716d143ad8d902, type: 2}
