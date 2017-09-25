@@ -44,6 +44,10 @@ public class LevelCount : MonoBehaviour {
                 if (LowestPosition.childCount > 0)
                 {
                     LowestPosition = LowestPosition.GetChild(0);
+                    Vector3 temp = LowestPosition.position;
+                    temp.y -= DISTANCE_BETWEEN_BLOCKS;
+                    temp.x = -1;
+                    Debug.DrawLine(temp, new Vector3(1, temp.y, temp.z), Color.red);
                 }
             }
             else

@@ -28,6 +28,7 @@ public class CloneBall : MonoBehaviour {
     {
         rigid = GetComponent<Rigidbody2D>();
         rigid.velocity = dir * speed;
+        rigid.velocity = speed * (rigid.velocity.normalized);
 
     }
     public void GameOver() {
@@ -40,6 +41,10 @@ public class CloneBall : MonoBehaviour {
     {
         if (!gameOver)
         {
+            int totalBricks = GameObject.FindGameObjectsWithTag("Bricks").Length + GameObject.FindGameObjectsWithTag("NewBallBrick").Length;
+
+            rigid.velocity = speed * (rigid.velocity.normalized);
+            Debug.Log(rigid.velocity.magnitude);
             if (ded && MainBall.touchedFloor)
             {
                 rigid.velocity = Vector3.zero;
@@ -68,7 +73,8 @@ public class CloneBall : MonoBehaviour {
 
                             }
                         }
-                        else {
+                        else
+                        {
                             ded = false;
                         }
                     }
@@ -88,7 +94,18 @@ public class CloneBall : MonoBehaviour {
 
                     }
                 }
+
                 lastPos = transform.position.y;
+            }
+            if (totalBricks <= 0)
+            {
+                MainBall.CurrentBalls -= 1;
+                ded = true;
+                passed = true;
+
+                    MainBall.touchedFloor = true;
+
+                
             }
         }
 

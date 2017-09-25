@@ -88,6 +88,7 @@ public class Ball : MonoBehaviour {
 
         if (sd != Vector3.zero)
         {
+
             //Are we dragging in the wrong direction
             if (sd.y < 1.0f)
             {
@@ -98,8 +99,8 @@ public class Ball : MonoBehaviour {
                 ballsPreview.parent.up = sd.normalized;
                 ballsPreview.parent.gameObject.SetActive(true);
                 ballsPreview.localScale = Vector3.Lerp(new Vector3(1, 3, 1), new Vector3(1, 10, 1), sd.magnitude / MAXIMUM_PULL);
-
-                if (mInput.release)
+                int totalBricks = GameObject.FindGameObjectsWithTag("Bricks").Length + GameObject.FindGameObjectsWithTag("NewBallBrick").Length;
+                if (mInput.release &&  totalBricks > 0 )
                 {
                     tutorialContainer.SetActive(false);
                     isBreakingStuff = true;
@@ -127,11 +128,15 @@ public class Ball : MonoBehaviour {
         CurrentBalls = GameController.currentBalls;
         for (int i = 0; i < GameController.currentBalls; i++)
         {
-            yield return new WaitForSeconds(0.05f);
+            int totalBricks = GameObject.FindGameObjectsWithTag("Bricks").Length + GameObject.FindGameObjectsWithTag("NewBallBrick").Length;
+            if (totalBricks <= 0) {
+                break;
+            }
             GameObject bclone = Instantiate(BallClones, currentPos, resetPos.rotation);
             bclone.GetComponent<Rigidbody2D>().gravityScale = .1f;
             bclone.GetComponent<CloneBall>().speed = speed;
             bclone.GetComponent<CloneBall>().SendBallInDirection(n);
+            yield return new WaitForSeconds(0.05f);
         }
 
         
