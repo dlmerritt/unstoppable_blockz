@@ -9,7 +9,7 @@ public class CountKeep : MonoBehaviour {
     public void ConvertToBall() {
         isBallBlock = true;
         Controller = GameObject.Find("LevelContainer").GetComponent<LevelCount>();
-        gameObject.transform.parent.parent.GetComponent<SpriteRenderer>().color = Color.green;
+        gameObject.transform.parent.parent.GetComponent<SpriteRenderer>().color = Color.blue;
         gameObject.transform.parent.parent.tag = "NewBallBrick";
         GetComponent<Text>().text = (Controller.CurrentLevel + 1).ToString();
     }
