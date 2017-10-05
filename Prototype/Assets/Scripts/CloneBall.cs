@@ -15,6 +15,7 @@ public class CloneBall : MonoBehaviour {
     private Transform ResetPoint;
     bool gameOver = false;
     bool touchedandPassed = false;
+    private float recallSpeed = 10;
     private void Start()
     {
         ResetPoint = GameObject.Find("Reset").GetComponent<Transform>();
@@ -44,13 +45,13 @@ public class CloneBall : MonoBehaviour {
             int totalBricks = GameObject.FindGameObjectsWithTag("Bricks").Length + GameObject.FindGameObjectsWithTag("NewBallBrick").Length;
 
             rigid.velocity = speed * (rigid.velocity.normalized);
-            Debug.Log(rigid.velocity.magnitude);
+
             if (ded && MainBall.touchedFloor)
             {
                 rigid.velocity = Vector3.zero;
                 rigid.gravityScale = 0;
                 rigid.isKinematic = true;
-                transform.position = Vector3.MoveTowards(transform.position, ResetPoint.position, 5 * Time.deltaTime);
+                transform.position = Vector3.MoveTowards(transform.position, ResetPoint.position, recallSpeed * Time.deltaTime);
                 if (Vector3.Distance(transform.position, ResetPoint.position) < .1f)
                 {
                     Destroy(gameObject);
