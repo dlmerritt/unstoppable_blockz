@@ -152,9 +152,9 @@ public class Ball : MonoBehaviour {
                 }
                 
 
-                //ballsPreview.parent.up = sd.normalized;
-                //ballsPreview.parent.gameObject.SetActive(true);
-                //ballsPreview.localScale = Vector3.Lerp(new Vector3(1, 3, 1), new Vector3(1, 10, 1), sd.magnitude / MAXIMUM_PULL);
+                ballsPreview.parent.up = sd.normalized;
+                ballsPreview.parent.gameObject.SetActive(true);
+                ballsPreview.localScale = Vector3.Lerp(new Vector3(1, 3, 1), new Vector3(1, 10, 1), sd.magnitude / MAXIMUM_PULL);
                 int totalBricks = GameObject.FindGameObjectsWithTag("Bricks").Length + GameObject.FindGameObjectsWithTag("NewBallBrick").Length;
                 if (mInput.release &&  totalBricks > 0 )
                 {
