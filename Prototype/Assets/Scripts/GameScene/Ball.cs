@@ -11,7 +11,7 @@ public class Ball : MonoBehaviour {
     public Transform resetPos;
     private bool isBreakingStuff;
     private Vector2 landingPosition;
-
+    public LineRenderer line;
     private bool GameOver;
     public bool gameOver {
         get { return GameOver; }
@@ -38,6 +38,9 @@ public class Ball : MonoBehaviour {
         gameOver = false;
         isBreakingStuff = false;
         mInput = GameObject.Find("GameController").GetComponent<MobileInput>();
+        //line.SetPosition(0, Vector3.zero);
+        //line.SetPosition(1, Vector3.zero);
+        //line.SetPosition(2, Vector3.zero);
         //currentSpawnY = 0.45f;
     }
 
@@ -96,12 +99,56 @@ public class Ball : MonoBehaviour {
             }
             else
             {
-                Vector3 forward = sd.normalized * 5;
-                RaycastHit2D h = Physics2D.Raycast(transform.position, -sd.normalized);
-                Debug.DrawRay(transform.position, forward, Color.red);
+                /*
+                //Vector3 forward = sd.normalized * 5;
+                Vector3 startPoint = transform.position;
+                line.positionCount = 4;
+                
+                Vector3 reflected = Vector3.Reflect(sd.normalized, h.normal);
+                //Debug.DrawRay(transform.position, forward, Color.red);
                 if (h.collider != null) {
-                    
-                    //Debug.DrawRay(transform.position, h.point, Color.green);
+                    //Debug.Log(h.collider.name + " " +h.collider.gameObject.layer);
+                    line.SetPosition(0, transform.position);
+                    line.SetPosition(1, h.point);
+                    startPoint = h.point;
+                    h = Physics2D.Raycast(startPoint, reflected, Mathf.Infinity, 1 << LayerMask.NameToLayer("Walls"));
+
+                    if (h.collider != null)
+                    {
+                        line.SetPosition(2, h.point);
+                        startPoint = h.point;
+                        reflected = Vector3.Reflect(reflected, h.normal);
+                        h = Physics2D.Raycast(startPoint, reflected, Mathf.Infinity, 1 << LayerMask.NameToLayer("Walls"));
+
+                        if (h.collider != null)
+                        {
+                            line.SetPosition(3, h.point);
+                        }
+                    }
+
+                    Debug.DrawRay(transform.position, h.point * 15, Color.green);
+                }
+
+                */
+                int verts = 100;
+                line.positionCount = verts;
+                
+                Vector2 startpos = transform.position;
+                Vector2 vel = sd.normalized * speed;
+                Vector2 grav = new Vector2(Physics.gravity.x, Physics.gravity.y);
+                
+                for (int i = 0; i < verts; i++) {
+                    line.SetPosition(i, startpos);
+                    RaycastHit2D h = Physics2D.Raycast(startpos, sd.normalized,10, 1 << LayerMask.NameToLayer("Walls"));
+                    if (h.collider != null)
+                    {
+         
+                        startpos = h.point;
+                        vel = Vector3.Reflect(vel, h.normal);
+                        
+                    }
+                        //vel += Physics2D.gravity * Time.fixedDeltaTime;
+                        startpos += vel * Time.fixedDeltaTime;
                 }
                 
 
