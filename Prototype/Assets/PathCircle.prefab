@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4096845881794264}
   - component: {fileID: 212844955622870254}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: PathCircle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34,8 +34,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1963846135884210}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.0538, z: 0}
-  m_LocalScale: {x: 0.17929906, y: 0.017929906, z: 0.17929906}
+  m_LocalPosition: {x: 0.813, y: 1.052, z: 0}
+  m_LocalScale: {x: 0.12191123, y: 0.12191126, z: 0.12191126}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -71,9 +71,9 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 5
   m_Sprite: {fileID: 21300000, guid: b9dbf4535348e134c90ae202e8db35e1, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

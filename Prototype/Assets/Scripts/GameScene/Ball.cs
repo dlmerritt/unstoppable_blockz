@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Ball : MonoBehaviour
 {
-
     public GameObject BallClones;
     public LevelCount GameController;
     private const float DEADZONE = 30.0f;
@@ -30,6 +29,7 @@ public class Ball : MonoBehaviour
     private SpriteRenderer sprite;
     private Vector3 currentPos;
     private MobileInput mInput;
+    Vector3 sd;
     private void Start()
     {
         rigid = GetComponent<Rigidbody2D>();
@@ -40,9 +40,10 @@ public class Ball : MonoBehaviour
         gameOver = false;
         isBreakingStuff = false;
         mInput = GameObject.Find("GameController").GetComponent<MobileInput>();
-        //line.SetPosition(0, Vector3.zero);
-        //line.SetPosition(1, Vector3.zero);
-        //line.SetPosition(2, Vector3.zero);
+        line.SetPosition(0, Vector3.zero);
+        line.SetPosition(1, Vector3.zero);
+
+        sd = Vector3.zero;
         //currentSpawnY = 0.45f;
     }
 
@@ -85,128 +86,125 @@ public class Ball : MonoBehaviour
 
     }
 
+    /*
+    private void FixedUpdate()
+    {
+        if (sd != Vector3.zero)
+        {
+            int verts = 5;
+            line.positionCount = verts;
+
+            Vector2 startpos = transform.position;
+            Vector2 vel = sd.normalized * speed;
+
+            for (int i = 0; i < verts; i++)
+            {
+                line.SetPosition(i, startpos);
+                RaycastHit2D ha = Physics2D.Raycast(startpos, vel, Mathf.Infinity, 1 << LayerMask.NameToLayer("Walls"));
+                if (ha.collider != null)
+                {
+
+                    startpos = ha.point;
+                    vel = Vector3.Reflect(vel, ha.normal);
+
+                }
+                vel += Physics2D.gravity * Time.fixedDeltaTime;
+                startpos += vel * Time.fixedDeltaTime;
+
+            }
+        }
+
+    }
+    */
+    Vector3 last_pos;
+    Vector3 velocity;
+    int physics_steps = 4;
+    private void FixedUpdate()
+    {
+        if (sd != Vector3.zero)
+        {
+
+            last_pos = transform.position;
+            velocity = sd.normalized * speed;
+            line.positionCount = 1;
+            line.SetPosition(0, last_pos);
+            int i = 1;
+            while (i < physics_steps)
+            {
+                velocity.y += (Physics2D.gravity.y + rigid.gravityScale) * Time.fixedDeltaTime;
+                RaycastHit2D hit = Physics2D.Raycast(last_pos, velocity, 5, 1 << LayerMask.NameToLayer("Walls"));
+                if (hit.collider != null)
+                {
+
+                    velocity = Vector3.Reflect(velocity, hit.normal);
+                    last_pos = hit.point;
+                    if (hit.point.x < 0)
+                    {
+                        last_pos.x += GetComponent<CircleCollider2D>().radius;
+                    }
+                    else if (hit.point.x > 0)
+                    {
+                        last_pos.x -= GetComponent<CircleCollider2D>().radius;
+                    }
+                    last_pos.y -= GetComponent<CircleCollider2D>().radius;
+
+
+                }
+
+                line.positionCount = i + 1;
+                line.SetPosition(i, last_pos);
+                last_pos += velocity * Time.fixedDeltaTime;
+                if (hit)
+                {
+                    if (hit.collider.name == "TopCollision")
+                    {
+                        break;
+                    }
+                }
+                i++;
+            }
+
+        }
+        else {
+            line.enabled = false;
+        }
+    }
     private void PoolInput()
     {
         // Drag the ball around
 
-        Vector3 sd = mInput.swipeDelta;
+        sd = mInput.swipeDelta;
         //sd.Set(-sd.x, -sd.y, sd.z);
 
         if (sd != Vector3.zero)
         {
-
             //Are we dragging in the wrong direction
             if (sd.y < 1.0f)
             {
                 ballsPreview.parent.gameObject.SetActive(false);
+                line.enabled = false;
             }
             else
             {
+                line.enabled = true;
 
-                Vector3 forward = sd.normalized * speed;
-                forward.z = 0;
-                RaycastHit2D h = Physics2D.Raycast(transform.position, forward,Mathf.Infinity, 1 << LayerMask.NameToLayer("Walls"));
-                if (h.collider != null)
+                //ballsPreview.parent.up = sd.normalized;
+                //ballsPreview.parent.gameObject.SetActive(true);
+                //ballsPreview.localScale = Vector3.Lerp(new Vector3(1, 3, 1), new Vector3(1, 10, 1), sd.magnitude / MAXIMUM_PULL);
+                int totalBricks = GameObject.FindGameObjectsWithTag("Bricks").Length + GameObject.FindGameObjectsWithTag("NewBallBrick").Length;
+                if (mInput.release && totalBricks > 0)
                 {
-                    Vector3 startPoint = transform.position;
-                    line.positionCount = 4;
-
-                    Vector3 reflected = Vector3.Reflect(forward, h.normal);
-
-                    line.SetPosition(0, transform.position);
-                    Vector3 newPoint = h.point;
-                    if (h.point.x < 0)
-                    {
-                        newPoint.x += GetComponent<CircleCollider2D>().radius;
-                    }
-                    else if (h.point.x > 0)
-                    {
-                        newPoint.x -= GetComponent<CircleCollider2D>().radius;
-                        
-                    }
-                    newPoint.y -= GetComponent<CircleCollider2D>().radius;
-                    line.SetPosition(1, newPoint);
-
-                    startPoint = newPoint;
-
-                    
-                    h = Physics2D.Raycast(startPoint, reflected, Mathf.Infinity, 1 << LayerMask.NameToLayer("Walls"));
-
-                    if (h.collider != null)
-                    {
-                        newPoint = h.point;
-                        if (h.point.x < 0)
-                        {
-                            newPoint.x += GetComponent<CircleCollider2D>().radius;
-                        }
-                        else if (h.point.x > 0)
-                        {
-                            newPoint.x -= GetComponent<CircleCollider2D>().radius;
-                        }
-                        newPoint.y -= GetComponent<CircleCollider2D>().radius;
-                        line.SetPosition(2, newPoint);
-                        startPoint = newPoint;
-                        reflected = Vector3.Reflect(reflected, h.normal);
-                        h = Physics2D.Raycast(startPoint, reflected, Mathf.Infinity, 1 << LayerMask.NameToLayer("Walls"));
-
-                        if (h.collider != null)
-                        {
-                            line.SetPosition(3, h.point);
-                        }
-                    }
-
-                    Debug.DrawRay(transform.position, h.point * 15, Color.green);
-
-
-
-                    /*int verts = 100;
-                    line.positionCount = verts;
-
-                    Vector2 startpos = transform.position;
-                    Vector2 vel = sd.normalized * speed;
-                    Vector2 grav = new Vector2(Physics.gravity.x, Physics.gravity.y);
-
-                    for (int i = 0; i < verts; i++)
-                    {
-                        line.SetPosition(i, startpos);
-                        RaycastHit2D ha = Physics2D.Raycast(startpos, sd.normalized, 10, 1 << LayerMask.NameToLayer("Walls"));
-                        if (ha.collider != null)
-                        {
-
-                            startpos = ha.point;
-                            vel = Vector3.Reflect(vel, ha.normal);
-
-                        }
-                        //vel += Physics2D.gravity * Time.fixedDeltaTime;
-                        startpos += vel * Time.fixedDeltaTime;
-
-                        Vector3 forwarda = sd.normalized * 5;
-                        RaycastHit2D he = Physics2D.Raycast(transform.position, -sd.normalized);
-                        Debug.DrawRay(transform.position, forwarda, Color.red);
-                        if (he.collider != null)
-                        {
-
-                            //Debug.DrawRay(transform.position, h.point, Color.green);
-
-                        }
-
-                    }*/
-                    //ballsPreview.parent.up = sd.normalized;
-                    //ballsPreview.parent.gameObject.SetActive(true);
-                    //ballsPreview.localScale = Vector3.Lerp(new Vector3(1, 3, 1), new Vector3(1, 10, 1), sd.magnitude / MAXIMUM_PULL);
-                    int totalBricks = GameObject.FindGameObjectsWithTag("Bricks").Length + GameObject.FindGameObjectsWithTag("NewBallBrick").Length;
-                    if (mInput.release && totalBricks > 0)
-                    {
-                        tutorialContainer.SetActive(false);
-                        isBreakingStuff = true;
-                        //SendBallInDirection(sd.normalized);
-                        currentPos = resetPos.position;
-                        touchedFloor = false;
-                        GetComponent<SpriteRenderer>().enabled = false;
-                        StartCoroutine(ballWait(sd.normalized));
-                        ballsPreview.parent.gameObject.SetActive(false);
-                    }
+                    line.enabled = false;
+                    tutorialContainer.SetActive(false);
+                    isBreakingStuff = true;
+                    //SendBallInDirection(sd.normalized);
+                    currentPos = resetPos.position;
+                    touchedFloor = false;
+                    GetComponent<SpriteRenderer>().enabled = false;
+                    StartCoroutine(ballWait(sd.normalized));
+                    ballsPreview.parent.gameObject.SetActive(false);
                 }
+
             }
         }
     }
@@ -222,7 +220,7 @@ public class Ball : MonoBehaviour
                 break;
             }
             GameObject bclone = Instantiate(BallClones, currentPos, resetPos.rotation);
-            bclone.GetComponent<Rigidbody2D>().gravityScale = 0f;
+            bclone.GetComponent<Rigidbody2D>().gravityScale = 0.1f;
             bclone.GetComponent<CloneBall>().speed = speed;
             bclone.GetComponent<CloneBall>().SendBallInDirection(n);
             yield return new WaitForSeconds(0.05f);
