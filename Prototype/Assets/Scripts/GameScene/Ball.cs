@@ -105,40 +105,60 @@ public class Ball : MonoBehaviour
 
                 Vector3 forward = sd.normalized * speed;
                 forward.z = 0;
-                RaycastHit2D h = Physics2D.Raycast(transform.position, forward, LayerMask.GetMask("Walls"));
-                //Debug.DrawRay(transform.position, forward * 15, Color.green);
+                RaycastHit2D h = Physics2D.Raycast(transform.position, forward,Mathf.Infinity, 1 << LayerMask.NameToLayer("Walls"));
                 if (h.collider != null)
                 {
-                    //Vector3 forward = sd.normalized * 5;
                     Vector3 startPoint = transform.position;
                     line.positionCount = 4;
 
-                    Vector3 reflected = Vector3.Reflect(sd.normalized, h.normal);
-                    //Debug.DrawRay(transform.position, forward, Color.red);
-                    if (h.collider != null) {
-                        //Debug.Log(h.collider.name + " " +h.collider.gameObject.layer);
-                        line.SetPosition(0, transform.position);
-                        line.SetPosition(1, h.point);
-                        startPoint = h.point;
+                    Vector3 reflected = Vector3.Reflect(forward, h.normal);
+
+                    line.SetPosition(0, transform.position);
+                    Vector3 newPoint = h.point;
+                    if (h.point.x < 0)
+                    {
+                        newPoint.x += GetComponent<CircleCollider2D>().radius;
+                    }
+                    else if (h.point.x > 0)
+                    {
+                        newPoint.x -= GetComponent<CircleCollider2D>().radius;
+                        
+                    }
+                    newPoint.y -= GetComponent<CircleCollider2D>().radius;
+                    line.SetPosition(1, newPoint);
+
+                    startPoint = newPoint;
+
+                    
+                    h = Physics2D.Raycast(startPoint, reflected, Mathf.Infinity, 1 << LayerMask.NameToLayer("Walls"));
+
+                    if (h.collider != null)
+                    {
+                        newPoint = h.point;
+                        if (h.point.x < 0)
+                        {
+                            newPoint.x += GetComponent<CircleCollider2D>().radius;
+                        }
+                        else if (h.point.x > 0)
+                        {
+                            newPoint.x -= GetComponent<CircleCollider2D>().radius;
+                        }
+                        newPoint.y -= GetComponent<CircleCollider2D>().radius;
+                        line.SetPosition(2, newPoint);
+                        startPoint = newPoint;
+                        reflected = Vector3.Reflect(reflected, h.normal);
                         h = Physics2D.Raycast(startPoint, reflected, Mathf.Infinity, 1 << LayerMask.NameToLayer("Walls"));
 
                         if (h.collider != null)
                         {
-                            line.SetPosition(2, h.point);
-                            startPoint = h.point;
-                            reflected = Vector3.Reflect(reflected, h.normal);
-                            h = Physics2D.Raycast(startPoint, reflected, Mathf.Infinity, 1 << LayerMask.NameToLayer("Walls"));
-
-                            if (h.collider != null)
-                            {
-                                line.SetPosition(3, h.point);
-                            }
+                            line.SetPosition(3, h.point);
                         }
-
-                        Debug.DrawRay(transform.position, h.point * 15, Color.green);
                     }
 
-                    
+                    Debug.DrawRay(transform.position, h.point * 15, Color.green);
+
+
+
                     /*int verts = 100;
                     line.positionCount = verts;
 
@@ -171,93 +191,83 @@ public class Ball : MonoBehaviour
                         }
 
                     }*/
-                        ballsPreview.parent.up = sd.normalized;
-                        ballsPreview.parent.gameObject.SetActive(true);
-                        ballsPreview.localScale = Vector3.Lerp(new Vector3(1, 3, 1), new Vector3(1, 10, 1), sd.magnitude / MAXIMUM_PULL);
-                        int totalBricks = GameObject.FindGameObjectsWithTag("Bricks").Length + GameObject.FindGameObjectsWithTag("NewBallBrick").Length;
-                        if (mInput.release && totalBricks > 0)
-                        {
-                            tutorialContainer.SetActive(false);
-                            isBreakingStuff = true;
-                            //SendBallInDirection(sd.normalized);
-                            currentPos = resetPos.position;
-                            touchedFloor = false;
-                            GetComponent<SpriteRenderer>().enabled = false;
-                            StartCoroutine(ballWait(sd.normalized));
-                            ballsPreview.parent.gameObject.SetActive(false);
-                        }
-
-                    
-
-
-                    //Currently dragging
-
+                    //ballsPreview.parent.up = sd.normalized;
+                    //ballsPreview.parent.gameObject.SetActive(true);
                     //ballsPreview.localScale = Vector3.Lerp(new Vector3(1, 3, 1), new Vector3(1, 10, 1), sd.magnitude / MAXIMUM_PULL);
+                    int totalBricks = GameObject.FindGameObjectsWithTag("Bricks").Length + GameObject.FindGameObjectsWithTag("NewBallBrick").Length;
+                    if (mInput.release && totalBricks > 0)
+                    {
+                        tutorialContainer.SetActive(false);
+                        isBreakingStuff = true;
+                        //SendBallInDirection(sd.normalized);
+                        currentPos = resetPos.position;
+                        touchedFloor = false;
+                        GetComponent<SpriteRenderer>().enabled = false;
+                        StartCoroutine(ballWait(sd.normalized));
+                        ballsPreview.parent.gameObject.SetActive(false);
+                    }
                 }
-
-                //Debug.Log(MobileInput.Instance.swipeDelta);
-
             }
         }
     }
 
-            IEnumerator ballWait(Vector3 n)
+    IEnumerator ballWait(Vector3 n)
+    {
+        CurrentBalls = GameController.currentBalls;
+        for (int i = 0; i < GameController.currentBalls; i++)
+        {
+            int totalBricks = GameObject.FindGameObjectsWithTag("Bricks").Length + GameObject.FindGameObjectsWithTag("NewBallBrick").Length;
+            if (totalBricks <= 0)
             {
-                CurrentBalls = GameController.currentBalls;
-                for (int i = 0; i < GameController.currentBalls; i++)
-                {
-                    int totalBricks = GameObject.FindGameObjectsWithTag("Bricks").Length + GameObject.FindGameObjectsWithTag("NewBallBrick").Length;
-                    if (totalBricks <= 0)
-                    {
-                        break;
-                    }
-                    GameObject bclone = Instantiate(BallClones, currentPos, resetPos.rotation);
-                    bclone.GetComponent<Rigidbody2D>().gravityScale = 0f;
-                    bclone.GetComponent<CloneBall>().speed = speed;
-                    bclone.GetComponent<CloneBall>().SendBallInDirection(n);
-                    yield return new WaitForSeconds(0.05f);
-                }
-
-
+                break;
             }
-
-            private void SendBallInDirection(Vector3 dir)
-            {
-                sprite.enabled = false;
-                touchedFloor = false;
-                rigid.gravityScale = .8f;
-                rigid.velocity = dir * speed;
-
-            }
-
-            private void TouchFloor()
-            {
-                sprite.enabled = true;
-                rigid.velocity = Vector2.zero;
-                rigid.gravityScale = 0;
-                touchedFloor = true;
-                Vector3 temp = transform.position;
-                temp.y = -1.606f;
-                transform.position = temp;
-
-            }
-
-
-            void Touched()
-            {
-                touchedFloor = true;
-            }
-
-
-            // void OnCollisionEnter2D(Collision2D collision)
-            //{
-            //if (collision.gameObject.tag == "Floor")
-            // {
-            //TouchFloor();
-
-            //Debug.Log("This is working");
-            // }
-            //   }
-
+            GameObject bclone = Instantiate(BallClones, currentPos, resetPos.rotation);
+            bclone.GetComponent<Rigidbody2D>().gravityScale = 0f;
+            bclone.GetComponent<CloneBall>().speed = speed;
+            bclone.GetComponent<CloneBall>().SendBallInDirection(n);
+            yield return new WaitForSeconds(0.05f);
         }
-    
+
+
+    }
+
+    private void SendBallInDirection(Vector3 dir)
+    {
+        sprite.enabled = false;
+        touchedFloor = false;
+        rigid.gravityScale = .8f;
+        rigid.velocity = dir * speed;
+
+    }
+
+    private void TouchFloor()
+    {
+        sprite.enabled = true;
+        rigid.velocity = Vector2.zero;
+        rigid.gravityScale = 0;
+        touchedFloor = true;
+        Vector3 temp = transform.position;
+        temp.y = -1.606f;
+        transform.position = temp;
+
+    }
+
+
+    void Touched()
+    {
+        touchedFloor = true;
+    }
+
+
+    // void OnCollisionEnter2D(Collision2D collision)
+    //{
+    //if (collision.gameObject.tag == "Floor")
+    // {
+    //TouchFloor();
+
+    //Debug.Log("This is working");
+    // }
+    //   }
+
+}
+
