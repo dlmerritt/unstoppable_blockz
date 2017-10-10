@@ -102,8 +102,14 @@ public class Ball : MonoBehaviour
             }
             else
             {
+<<<<<<< HEAD
 
                 Vector3 forward = sd.normalized * speed;
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+                Vector3 forward = sd.normalized;
+>>>>>>> d523235738618ed9f531853f880d0189328af0d2
                 forward.z = 0;
                 RaycastHit2D h = Physics2D.Raycast(transform.position, forward, LayerMask.GetMask("Walls"));
                 //Debug.DrawRay(transform.position, forward * 15, Color.green);
@@ -159,6 +165,20 @@ public class Ball : MonoBehaviour
                         }
                         //vel += Physics2D.gravity * Time.fixedDeltaTime;
                         startpos += vel * Time.fixedDeltaTime;
+<<<<<<< HEAD
+=======
+>>>>>>> 2f93191a21387f9e6a9072fade90440f11bb3ed7
+=======
+                Vector3 forward = sd.normalized * 5;
+                RaycastHit2D h = Physics2D.Raycast(transform.position, -sd.normalized);
+                Debug.DrawRay(transform.position, forward, Color.red);
+                if (h.collider != null) {
+                    
+                    //Debug.DrawRay(transform.position, h.point, Color.green);
+>>>>>>> parent of f328c05... updated line
+                }
+                
+>>>>>>> d523235738618ed9f531853f880d0189328af0d2
 
                         Vector3 forwarda = sd.normalized * 5;
                         RaycastHit2D he = Physics2D.Raycast(transform.position, -sd.normalized);
