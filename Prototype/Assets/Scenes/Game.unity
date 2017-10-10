@@ -330,7 +330,7 @@ GameObject:
   - component: {fileID: 223474908}
   - component: {fileID: 223474910}
   - component: {fileID: 223474909}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: BottomCollision
   m_TagString: Floor
   m_Icon: {fileID: 0}
@@ -358,7 +358,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 223474907}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: f3448dc4f3c4a9548b1efbd821e1062d, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -521,7 +521,7 @@ GameObject:
   - component: {fileID: 275817283}
   - component: {fileID: 275817285}
   - component: {fileID: 275817284}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: TopCollision
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -797,19 +797,7 @@ GameObject:
   - component: {fileID: 499462349}
   - component: {fileID: 499462352}
   - component: {fileID: 499462353}
-<<<<<<< HEAD
   m_Layer: 0
-=======
-<<<<<<< HEAD
-<<<<<<< HEAD
-  m_Layer: 0
-=======
-  m_Layer: 11
->>>>>>> 2f93191a21387f9e6a9072fade90440f11bb3ed7
-=======
-  m_Layer: 8
->>>>>>> parent of f328c05... updated line
->>>>>>> d523235738618ed9f531853f880d0189328af0d2
   m_Name: Ball
   m_TagString: Ball
   m_Icon: {fileID: 0}
@@ -1092,7 +1080,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1216,7 +1204,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1715,7 +1703,7 @@ GameObject:
   - component: {fileID: 1311653966}
   - component: {fileID: 1311653968}
   - component: {fileID: 1311653967}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Right Collision
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2098,7 +2086,7 @@ GameObject:
   - component: {fileID: 1587800628}
   - component: {fileID: 1587800630}
   - component: {fileID: 1587800629}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Left Collision
   m_TagString: Untagged
   m_Icon: {fileID: 0}
