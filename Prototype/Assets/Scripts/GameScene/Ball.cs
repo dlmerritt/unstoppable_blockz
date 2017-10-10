@@ -97,8 +97,9 @@ public class Ball : MonoBehaviour {
             {
                 ballsPreview.parent.gameObject.SetActive(false);
             }
-            else 
+            else
             {
+<<<<<<< HEAD
 <<<<<<< HEAD
                 Vector3 forward = sd.normalized;
                 forward.z = 0;
@@ -159,6 +160,14 @@ public class Ball : MonoBehaviour {
                         //vel += Physics2D.gravity * Time.fixedDeltaTime;
                         startpos += vel * Time.fixedDeltaTime;
 >>>>>>> 2f93191a21387f9e6a9072fade90440f11bb3ed7
+=======
+                Vector3 forward = sd.normalized * 5;
+                RaycastHit2D h = Physics2D.Raycast(transform.position, -sd.normalized);
+                Debug.DrawRay(transform.position, forward, Color.red);
+                if (h.collider != null) {
+                    
+                    //Debug.DrawRay(transform.position, h.point, Color.green);
+>>>>>>> parent of f328c05... updated line
                 }
                 
 
