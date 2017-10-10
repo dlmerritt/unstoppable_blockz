@@ -94,14 +94,15 @@ public class Ball : MonoBehaviour {
             {
                 ballsPreview.parent.gameObject.SetActive(false);
             }
-            else
+            else 
             {
-                Vector3 forward = sd.normalized * 5;
-                RaycastHit2D h = Physics2D.Raycast(transform.position, -sd.normalized);
-                Debug.DrawRay(transform.position, forward, Color.red);
+                Vector3 forward = sd.normalized;
+                forward.z = 0;
+                RaycastHit2D h = Physics2D.Raycast(transform.position, forward,LayerMask.GetMask("Walls"));
+                //Debug.DrawRay(transform.position, forward * 15, Color.green);
                 if (h.collider != null) {
-                    
-                    //Debug.DrawRay(transform.position, h.point, Color.green);
+                    Debug.Log(h.collider.name);
+                    Debug.DrawRay(transform.position, h.point, Color.red);
                 }
                 
 
