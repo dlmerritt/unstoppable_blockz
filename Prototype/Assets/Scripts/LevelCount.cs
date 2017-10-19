@@ -61,7 +61,8 @@ public class LevelCount : MonoBehaviour {
                     gameOver = true;
                     ball.gameOver = true;
                     GameObject[] cloneBalls = GameObject.FindGameObjectsWithTag("Clone");
-                    foreach (GameObject clone in cloneBalls) {
+                    foreach (GameObject clone in cloneBalls)
+                    {
                         clone.GetComponent<CloneBall>().GameOver();
                     }
                     SceneManager.LoadScene(2);
@@ -85,8 +86,11 @@ public class LevelCount : MonoBehaviour {
                 rowContainer.transform.position = Vector3.MoveTowards(rowContainer.transform.position, desiredPosition, Time.deltaTime);
             }
         }
+
     }
     IEnumerator EndLevel() {
+        PlayerPrefs.SetInt("Score", CurrentLevel);
+        PlayerPrefs.Save();
         yield return new WaitForSeconds(1.0f);
         SceneManager.LoadScene(2);
     }
