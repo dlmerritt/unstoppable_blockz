@@ -18,18 +18,23 @@ public class PauseMenuController : MonoBehaviour {
         if (pause_menu.alpha == 0)
         {
             pause_menu.alpha = 1;
-            Time.timeScale = 1.0f;
+            Time.timeScale = 0f;
         }
         else
         {
             pause_menu.alpha = 0;
-            Time.timeScale = 0f;
+            Time.timeScale = 1.0f;
         }
     }
 
     public void OnContinueButtonClicked()
     {
-        pause_menu.alpha = 1;
+        if (pause_menu.alpha == 1)
+        {
+            pause_menu.alpha = 0;
+            Time.timeScale = 1.0f;
+        }
+
     }
     
     public void OnMenuButtonClicked()
