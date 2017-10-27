@@ -11,6 +11,7 @@ TagManager:
   - Clone
   - Controller
   - BallAmount
+  - PauseMenu
   layers:
   - Default
   - TransparentFX
