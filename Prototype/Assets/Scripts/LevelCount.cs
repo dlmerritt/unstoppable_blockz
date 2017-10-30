@@ -8,23 +8,42 @@ public class LevelCount : MonoBehaviour {
     public float spawnTime = 5.0f;
     private float currentTime;
     public int currentBalls;
-    public Text currentLevelText;
-    public int CurrentLevel = 1;
+    public Text currentScoreText;
+    private int curScore;
+    public int CurrentScore {
+        get { return curScore; }
+        set { curScore = value; }
+    }
     private Transform spawnLocation;
     private Transform rowContainer;
     public GameObject rowPrefab;
     private Ball ball;
     private Vector2 desiredPosition;
     private Vector2 rowContainerStartingPosition;
-
+    private int curRow;
+    public int CurrentRow {
+        get { return curRow; }
+        set { curRow = value; }
+    }
     private float currentSpawnY;
     private int score;
     public  float DISTANCE_BETWEEN_BLOCKS = .37f;
-    public Transform LowestPosition;
+    private Transform LowPos;
+    public Transform LowestPosition {
+        get { return LowPos; }
+        set { LowPos = value; }
+    }
     public bool gameOver = false;
+    public Text BestScore;
     // Use this for initialization
 
     void Start () {
+
+        BestScore.text = PlayerPrefs.GetInt("BestScore", 0).ToString();
+
+        CurrentScore = 0;
+        currentScoreText.text = CurrentScore.ToString();
+        CurrentRow = 0;
         ball = GameObject.Find("Ball").GetComponent<Ball>();
         spawnLocation = GameObject.Find("Reset").GetComponent<Transform>();
         rowContainer = transform;
@@ -58,6 +77,19 @@ public class LevelCount : MonoBehaviour {
             {
                 if (LowestPosition.position.y < (spawnLocation.position.y + DISTANCE_BETWEEN_BLOCKS))
                 {
+                    //Debug.Log("Score: " + CurrentScore.ToString());
+                    int bestScore = PlayerPrefs.GetInt("BestScore", 0);
+                    if (CurrentScore > bestScore)
+                    {
+                        PlayerPrefs.SetInt("NewHigh", 1);
+                        PlayerPrefs.SetInt("BestScore", CurrentScore);
+                    }
+                    else {
+                        PlayerPrefs.SetInt("NewHigh", 0);
+                    }
+                    PlayerPrefs.SetInt("Score", CurrentScore);
+                    PlayerPrefs.Save();
+
                     gameOver = true;
                     ball.gameOver = true;
                     GameObject[] cloneBalls = GameObject.FindGameObjectsWithTag("Clone");
@@ -75,8 +107,7 @@ public class LevelCount : MonoBehaviour {
             {
                 spawnTime *= .98f;
                 GenerateNewRow();
-                CurrentLevel++;
-                currentLevelText.text = CurrentLevel.ToString();
+                CurrentRow++;
                 currentTime = 0;
             }
 
@@ -89,10 +120,13 @@ public class LevelCount : MonoBehaviour {
 
     }
     IEnumerator EndLevel() {
-        PlayerPrefs.SetInt("Score", CurrentLevel);
-        PlayerPrefs.Save();
+        
         yield return new WaitForSeconds(1.0f);
         SceneManager.LoadScene(2);
+    }
+    public void AddScore() {
+        CurrentScore++;
+        currentScoreText.text = CurrentScore.ToString();
     }
 
     private void GenerateNewRow()

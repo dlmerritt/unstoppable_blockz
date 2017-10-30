@@ -11,7 +11,7 @@ public class CountKeep : MonoBehaviour {
         Controller = GameObject.Find("LevelContainer").GetComponent<LevelCount>();
         gameObject.transform.parent.parent.GetComponent<SpriteRenderer>().color = Color.blue;
         gameObject.transform.parent.parent.tag = "NewBallBrick";
-        GetComponent<Text>().text = (Controller.CurrentLevel + 1).ToString();
+        GetComponent<Text>().text = (Controller.CurrentRow + 1).ToString();
     }
     
 	// Use this for initialization
@@ -19,7 +19,7 @@ public class CountKeep : MonoBehaviour {
         Controller = GameObject.Find("LevelContainer").GetComponent<LevelCount>();
         GetComponent<Text>().color = Color.white;
 
-        int min = Controller.CurrentLevel ;
+        int min = Controller.CurrentRow;
         int max = min + 2;
         Hits = Random.Range(min, max);
         // hasGreen = transform.parent.parent.GetComponent<DestroyRow>().hasGreen;
@@ -37,6 +37,7 @@ public class CountKeep : MonoBehaviour {
     public void ReduceCount() {
         Hits -= 1;
         if (Hits < 1) {
+            Controller.GetComponent<LevelCount>().AddScore();
             Destroy(gameObject.transform.parent.parent.gameObject);
         }
         else

@@ -1344,12 +1344,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnTime: 5
   currentBalls: 1
-  currentLevelText: {fileID: 1129276660}
-  CurrentLevel: 0
+  currentScoreText: {fileID: 1129276660}
   rowPrefab: {fileID: 1439861374997916, guid: 91f5336def37b3e48a716d143ad8d902, type: 2}
   DISTANCE_BETWEEN_BLOCKS: 0.3
-  LowestPosition: {fileID: 0}
   gameOver: 0
+  BestScore: {fileID: 330407021}
 --- !u!1 &708369670
 GameObject:
   m_ObjectHideFlags: 0

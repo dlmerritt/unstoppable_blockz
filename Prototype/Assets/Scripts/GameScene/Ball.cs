@@ -85,37 +85,6 @@ public class Ball : MonoBehaviour
         }
 
     }
-
-    /*
-    private void FixedUpdate()
-    {
-        if (sd != Vector3.zero)
-        {
-            int verts = 5;
-            line.positionCount = verts;
-
-            Vector2 startpos = transform.position;
-            Vector2 vel = sd.normalized * speed;
-
-            for (int i = 0; i < verts; i++)
-            {
-                line.SetPosition(i, startpos);
-                RaycastHit2D ha = Physics2D.Raycast(startpos, vel, Mathf.Infinity, 1 << LayerMask.NameToLayer("Walls"));
-                if (ha.collider != null)
-                {
-
-                    startpos = ha.point;
-                    vel = Vector3.Reflect(vel, ha.normal);
-
-                }
-                vel += Physics2D.gravity * Time.fixedDeltaTime;
-                startpos += vel * Time.fixedDeltaTime;
-
-            }
-        }
-
-    }
-    */
     Vector3 last_pos;
     Vector3 velocity;
     int physics_steps = 4;
