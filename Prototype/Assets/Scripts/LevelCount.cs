@@ -5,6 +5,8 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class LevelCount : MonoBehaviour {
+    public Sprite doubleSprite;
+    public Sprite bombSprite;
     public float spawnTime = 5.0f;
     private float currentTime;
     public int currentBalls;
@@ -35,6 +37,7 @@ public class LevelCount : MonoBehaviour {
     }
     public bool gameOver = false;
     public Text BestScore;
+    int SpecialPowerup = 0;
     // Use this for initialization
 
     void Start () {
@@ -108,6 +111,18 @@ public class LevelCount : MonoBehaviour {
                 spawnTime *= .98f;
                 GenerateNewRow();
                 CurrentRow++;
+                SpecialPowerup++;
+                if (SpecialPowerup > 5) {
+                    int randomChild = Random.Range(0, 2);
+                    if (randomChild == 0)
+                    {
+                        transform.GetChild(transform.childCount - 1).GetComponent<DestroyRow>().MakeDoublePower(doubleSprite);
+                    }
+                    else {
+                        transform.GetChild(transform.childCount - 1).GetComponent<DestroyRow>().MakeBomb(bombSprite);
+                    }
+                    SpecialPowerup = 0;
+                }
                 currentTime = 0;
             }
 

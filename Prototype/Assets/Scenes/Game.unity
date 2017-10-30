@@ -1383,6 +1383,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee30ffbd7add2954ba272189ae3581b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  doubleSprite: {fileID: 21300000, guid: d4aa135a4c14ae24b892dd89900d71e5, type: 3}
+  bombSprite: {fileID: 21300000, guid: f27aa7d50c64dd0498363aa6a77b3fc0, type: 3}
   spawnTime: 5
   currentBalls: 1
   currentScoreText: {fileID: 1129276660}

@@ -147,5 +147,10 @@ public class CloneBall : MonoBehaviour {
                 Destroy(collision.gameObject);
             }
         }
+        if (collision.gameObject.CompareTag("DoublePowerUp") || collision.gameObject.CompareTag("BombPowerUp")) {
+
+               Destroy(collision.gameObject);
+         
+        }
     }
 }

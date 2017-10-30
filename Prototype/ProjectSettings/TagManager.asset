@@ -12,6 +12,8 @@ TagManager:
   - Controller
   - BallAmount
   - PauseMenu
+  - DoublePowerUp
+  - BombPowerUp
   layers:
   - Default
   - TransparentFX
