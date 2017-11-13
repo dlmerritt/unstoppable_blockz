@@ -38,10 +38,15 @@ public class LevelCount : MonoBehaviour {
     public bool gameOver = false;
     public Text BestScore;
     int SpecialPowerup = 0;
+    public int EveryLevelforPowerup;
+
+    public Button RecallButton;
+    public float RecallButtonTime;
+    private float currentRecallTime;
     // Use this for initialization
 
     void Start () {
-
+        currentRecallTime = 0;
         BestScore.text = PlayerPrefs.GetInt("BestScore", 0).ToString();
 
         CurrentScore = 0;
@@ -112,7 +117,7 @@ public class LevelCount : MonoBehaviour {
                 GenerateNewRow();
                 CurrentRow++;
                 SpecialPowerup++;
-                if (SpecialPowerup > 5) {
+                if (SpecialPowerup > EveryLevelforPowerup) {
                     int randomChild = Random.Range(0, 2);
                     if (randomChild == 0)
                     {
@@ -131,6 +136,17 @@ public class LevelCount : MonoBehaviour {
             {
                 rowContainer.transform.position = Vector3.MoveTowards(rowContainer.transform.position, desiredPosition, Time.deltaTime);
             }
+
+            if (currentRecallTime < RecallButtonTime)
+            {
+                RecallButton.interactable = false;
+                RecallButton.targetGraphic.GetComponent<Image>().fillAmount = currentRecallTime / RecallButtonTime;
+                currentRecallTime += Time.deltaTime;
+                if (currentRecallTime >= RecallButtonTime) {
+                    RecallButton.interactable = true;
+                }
+            }
+
         }
 
     }
@@ -153,5 +169,15 @@ public class LevelCount : MonoBehaviour {
         currentSpawnY -= DISTANCE_BETWEEN_BLOCKS;
 
         desiredPosition = rowContainerStartingPosition + (Vector2.up * currentSpawnY);
+    }
+
+    public void RecallBalls() {
+        RecallButton.interactable = false;
+        RecallButton.targetGraphic.GetComponent<Image>().fillAmount = 0;
+        currentRecallTime = 0;
+        GameObject[] cloneBalls = GameObject.FindGameObjectsWithTag("Clone");
+        foreach (GameObject cBall in cloneBalls) {
+            cBall.GetComponent<CloneBall>().recalled = true;
+        }
     }
 }

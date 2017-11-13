@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 public class Ball : MonoBehaviour
 {
     public GameObject BallClones;
@@ -29,9 +29,47 @@ public class Ball : MonoBehaviour
     private SpriteRenderer sprite;
     private Vector3 currentPos;
     private MobileInput mInput;
+    public float speedMultiplier = 1;
+    public bool SpeedPowerUpEnabled = false;
+    public float speedMultiplierTime = 3;
+    private float currentSpeedTime = 0;
+
+    public bool BombPowerUpEnabled = false;
+    public float BombMultiplierTime = 3;
+    private float currentBombTime = 0;
+
+    public GameObject SpeedSlider;
+    public GameObject BombSlider;
     Vector3 sd;
+    public void ResetSpeed() {
+        speedMultiplier = 1;
+        SpeedPowerUpEnabled = false;
+        SpeedSlider.GetComponent<Slider>().value = 0;
+        SpeedSlider.SetActive(false);
+    }
+    public void ResetBomb() {
+        BombSlider.SetActive(false);
+        BombPowerUpEnabled = false;
+        BombSlider.GetComponent<Slider>().value = 0;
+        BombSlider.SetActive(false);
+    }
+    public void DoubleSpeed() {
+        speedMultiplier = 2;
+        SpeedPowerUpEnabled = true;
+        SpeedSlider.SetActive(true);
+        SpeedSlider.GetComponent<Slider>().value = 0;
+
+    }
+    public void BombCreate() {
+        BombPowerUpEnabled = true;
+        BombSlider.SetActive(true);
+        BombSlider.GetComponent<Slider>().value = 0;
+    }
+
     private void Start()
     {
+        ResetSpeed();
+        ResetBomb();
         rigid = GetComponent<Rigidbody2D>();
         ballsPreview.parent.gameObject.SetActive(false);
         sprite = GetComponent<SpriteRenderer>();
@@ -52,7 +90,26 @@ public class Ball : MonoBehaviour
 
         if (!gameOver)
         {
-
+            if (SpeedPowerUpEnabled) {
+                currentSpeedTime += Time.deltaTime;
+                SpeedSlider.GetComponent<Slider>().value =  1 - currentSpeedTime/speedMultiplierTime;
+                if (currentSpeedTime > speedMultiplierTime) {
+                    ResetSpeed();
+                    currentSpeedTime = 0;
+                    SpeedPowerUpEnabled = false;
+                }
+            }
+            if (BombPowerUpEnabled)
+            {
+                currentBombTime += Time.deltaTime;
+                BombSlider.GetComponent<Slider>().value = 1 - currentBombTime / BombMultiplierTime;
+                if (currentBombTime > BombMultiplierTime)
+                {
+                    ResetBomb();
+                    currentBombTime = 0;
+                    BombPowerUpEnabled = false;
+                }
+            }
             if (!isBreakingStuff)
             {
                 GetComponent<SpriteRenderer>().enabled = true;
@@ -94,7 +151,7 @@ public class Ball : MonoBehaviour
         {
 
             last_pos = transform.position;
-            velocity = sd.normalized * speed;
+            velocity = sd.normalized * speed * speedMultiplier;
             line.positionCount = 1;
             line.SetPosition(0, last_pos);
             int i = 1;
@@ -181,6 +238,7 @@ public class Ball : MonoBehaviour
     IEnumerator ballWait(Vector3 n)
     {
         CurrentBalls = GameController.currentBalls;
+        bool first = true;
         for (int i = 0; i < GameController.currentBalls; i++)
         {
             int totalBricks = GameObject.FindGameObjectsWithTag("Bricks").Length + GameObject.FindGameObjectsWithTag("NewBallBrick").Length;
@@ -189,9 +247,15 @@ public class Ball : MonoBehaviour
                 break;
             }
             GameObject bclone = Instantiate(BallClones, currentPos, resetPos.rotation);
+            if (BombPowerUpEnabled && first)
+            {
+                bclone.GetComponent<CloneBall>().becomeBomb();
+                first = false;
+            }
             bclone.GetComponent<Rigidbody2D>().gravityScale = 0.1f;
-            bclone.GetComponent<CloneBall>().speed = speed;
+            bclone.GetComponent<CloneBall>().speed = speed * speedMultiplier;
             bclone.GetComponent<CloneBall>().SendBallInDirection(n);
+            first = false;
             yield return new WaitForSeconds(0.05f);
         }
 

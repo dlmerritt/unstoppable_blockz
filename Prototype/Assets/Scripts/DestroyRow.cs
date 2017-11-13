@@ -37,7 +37,7 @@ public class DestroyRow : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         if (transform.childCount == 0) {
-            
+            GameObject.Find("LevelContainer").GetComponent<LevelCount>().AddScore();
             Destroy(gameObject);
         }
 	}

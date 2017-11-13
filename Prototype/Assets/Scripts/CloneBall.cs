@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-public class CloneBall : MonoBehaviour {
+public class CloneBall : MonoBehaviour
+{
     private Rigidbody2D rigid;
     public float speed;
     private LevelCount GameController;
@@ -16,12 +17,18 @@ public class CloneBall : MonoBehaviour {
     bool gameOver = false;
     bool touchedandPassed = false;
     private float recallSpeed = 10;
+    private float speedMultiplier = 1;
+    public bool isBomb;
+    public GameObject explosionArt;
+    public float Bombpower = 50;
+    public float Bombradius = 5;
+    public bool recalled;
     private void Start()
     {
         ResetPoint = GameObject.Find("Reset").GetComponent<Transform>();
         GameController = GameObject.FindGameObjectWithTag("Controller").GetComponent<LevelCount>();
         ballAmount = GameObject.FindGameObjectWithTag("BallAmount").GetComponent<Text>();
-        MainBall = GameObject.FindGameObjectWithTag("Ball").GetComponent<Ball>() ;
+        MainBall = GameObject.FindGameObjectWithTag("Ball").GetComponent<Ball>();
         //currentSpawnY = 0.45f;
         lastPos = transform.position.y;
     }
@@ -29,10 +36,11 @@ public class CloneBall : MonoBehaviour {
     {
         rigid = GetComponent<Rigidbody2D>();
         rigid.velocity = dir * speed;
-        rigid.velocity = speed * (rigid.velocity.normalized);
+        rigid.velocity = speed * (rigid.velocity.normalized) * speedMultiplier;
 
     }
-    public void GameOver() {
+    public void GameOver()
+    {
         rigid.velocity = Vector3.zero;
         rigid.gravityScale = 0;
         rigid.isKinematic = true;
@@ -42,9 +50,10 @@ public class CloneBall : MonoBehaviour {
     {
         if (!gameOver)
         {
+            speedMultiplier = MainBall.speedMultiplier;
             int totalBricks = GameObject.FindGameObjectsWithTag("Bricks").Length + GameObject.FindGameObjectsWithTag("NewBallBrick").Length;
-
-            rigid.velocity = speed * (rigid.velocity.normalized);
+            
+            rigid.velocity = speed * (rigid.velocity.normalized) * speedMultiplier;
 
             if (ded && MainBall.touchedFloor)
             {
@@ -98,24 +107,76 @@ public class CloneBall : MonoBehaviour {
 
                 lastPos = transform.position.y;
             }
-            if (totalBricks <= 0)
+            if (totalBricks <= 0 || recalled)
             {
                 MainBall.CurrentBalls -= 1;
                 ded = true;
                 passed = true;
 
-                    MainBall.touchedFloor = true;
+                MainBall.touchedFloor = true;
 
-                
+
             }
         }
 
     }
 
+    public void becomeBomb() {
+        isBomb = true;
+    }
+    IEnumerator bombTransform() {
+        Vector3 explosionPos = transform.position;
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(explosionPos, Bombradius);
+        List<GameObject> toChange = new List<GameObject>();
+        foreach (Collider2D hit in colliders)
+        {
+            GameObject objectHit = hit.gameObject;
+            if (!objectHit.CompareTag("CollisionWalls") && !objectHit.CompareTag("Floor") && !objectHit.CompareTag("Ball") && !objectHit.CompareTag("Clone"))
+            {
+                toChange.Add(objectHit);
 
+                Destroy(objectHit.GetComponent<Rigidbody2D>());
+                Destroy(objectHit.GetComponent<BoxCollider2D>());
+
+
+                objectHit.transform.SetParent(null);
+                objectHit.layer = 0;
+                objectHit.tag = "Ded";
+            }
+
+        }
+        yield return new WaitForFixedUpdate();
+        GameObject Explosion = (GameObject)Instantiate(explosionArt, transform.position, transform.rotation);
+        Destroy(Explosion, 3);
+        foreach (GameObject obj in toChange)
+        {
+            obj.AddComponent<BoxCollider>();
+            obj.AddComponent<Rigidbody>();
+            Rigidbody rb = obj.GetComponent<Rigidbody>();
+            rb.AddExplosionForce(Bombpower, transform.position, Bombradius);
+  
+            rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY;
+            Destroy(obj, 4);
+        }
+        //Destroy(gameObject);
+    }
 
     void OnCollisionEnter2D(Collision2D collision)
     {
+        
+        if (isBomb)  {
+
+            StartCoroutine(bombTransform());
+            MainBall.CurrentBalls -= 1;
+            Vector3 temp = transform.position;
+            if (!MainBall.touchedFloor)
+            {
+                temp.y = ResetPoint.position.y;
+                ResetPoint.position = temp;
+                Destroy(gameObject);
+                MainBall.touchedFloor = true;
+            }
+        }
         if (collision.gameObject.tag == "Floor")
         {
             MainBall.CurrentBalls -= 1;
@@ -133,13 +194,17 @@ public class CloneBall : MonoBehaviour {
         }
         if (collision.gameObject.CompareTag("Bricks"))
         {
-            collision.gameObject.transform.GetChild(0).GetChild(0).GetComponent<CountKeep>().ReduceCount();
+            int damage = 1;
+            if (speedMultiplier > 1) { damage = 2; }
+            collision.gameObject.transform.GetChild(0).GetChild(0).GetComponent<CountKeep>().ReduceCount(damage );
 
         }
         if (collision.gameObject.CompareTag("NewBallBrick"))
         {
             CountKeep controller = collision.gameObject.transform.GetChild(0).GetChild(0).GetComponent<CountKeep>();
-            controller.ReduceCount();
+            int damage = 1;
+            if (speedMultiplier > 1) { damage = 2; }
+            controller.ReduceCount(damage);
             if (controller.Hits <= 0)
             {
                 GameController.currentBalls += 1;
@@ -147,10 +212,17 @@ public class CloneBall : MonoBehaviour {
                 Destroy(collision.gameObject);
             }
         }
-        if (collision.gameObject.CompareTag("DoublePowerUp") || collision.gameObject.CompareTag("BombPowerUp")) {
+        if (collision.gameObject.CompareTag("DoublePowerUp") || collision.gameObject.CompareTag("BombPowerUp"))
+        {
+            string nameOfPowerUp = collision.gameObject.tag;
+            if (nameOfPowerUp == "DoublePowerUp") {
+                MainBall.DoubleSpeed();
+            }
+            if (nameOfPowerUp == "BombPowerUp") {
+                MainBall.BombCreate();
+            }
+            Destroy(collision.gameObject);
 
-               Destroy(collision.gameObject);
-         
         }
     }
 }

@@ -13,7 +13,7 @@ public class CountKeep : MonoBehaviour
     {
         isBallBlock = true;
         Controller = GameObject.Find("LevelContainer").GetComponent<LevelCount>();
-        gameObject.transform.parent.parent.GetComponent<SpriteRenderer>().color = Color.blue;
+        gameObject.transform.parent.parent.transform.GetChild(1).GetComponent<SpriteRenderer>().color = Color.blue;
         gameObject.transform.parent.parent.tag = "NewBallBrick";
         GetComponent<Text>().text = (Controller.CurrentRow + 1).ToString();
     }
@@ -21,28 +21,28 @@ public class CountKeep : MonoBehaviour
         isDoublePowerUpBlock = true;
         Controller = GameObject.Find("LevelContainer").GetComponent<LevelCount>();
         GameObject objectToChange = gameObject.transform.parent.parent.gameObject;
-        objectToChange.GetComponent<SpriteRenderer>().sprite = toChange;
+        objectToChange.transform.GetChild(1).GetComponent<SpriteRenderer>().sprite = toChange;
         objectToChange.tag = "DoublePowerUp";
-        objectToChange.transform.localScale = Vector3.one * .37f;
-        objectToChange.GetComponent<BoxCollider2D>().offset = new Vector2(0, .12f);
-        objectToChange.GetComponent<BoxCollider2D>().size = new Vector2(1, .75f);
+        //objectToChange.transform.localScale = Vector3.one * .37f;
+        objectToChange.GetComponent<BoxCollider2D>().offset = new Vector2(0, 0);
+        objectToChange.GetComponent<BoxCollider2D>().size = new Vector2(.16f, .16f);
 
 
         Hits = 1;
-        GetComponent<Text>().text = "";
+        GetComponent<Text>().enabled = false;
     }
     public void ConvertToBomb(Sprite toChange) {
         isBombBlock = true;
         Controller = GameObject.Find("LevelContainer").GetComponent<LevelCount>();
         GameObject objectToChange = gameObject.transform.parent.parent.gameObject;
-        objectToChange.GetComponent<SpriteRenderer>().sprite = toChange;
+        objectToChange.transform.GetChild(1).GetComponent<SpriteRenderer>().sprite = toChange;
         objectToChange.tag = "BombPowerUp";
 
-        objectToChange.transform.localScale = Vector3.one * .37f;
-        objectToChange.GetComponent<BoxCollider2D>().offset = new Vector2(0, .12f);
-        objectToChange.GetComponent<BoxCollider2D>().size = new Vector2(1, .75f);
+        //objectToChange.transform.localScale = Vector3.one * .37f;
+        objectToChange.GetComponent<BoxCollider2D>().offset = new Vector2(0, 0);
+        objectToChange.GetComponent<BoxCollider2D>().size = new Vector2(.16f, .16f);
         Hits = 1;
-        GetComponent<Text>().text = "";
+        GetComponent<Text>().enabled = false;
     }
     // Use this for initialization
     void Start()
@@ -65,12 +65,12 @@ public class CountKeep : MonoBehaviour
         GetComponent<Text>().text = Hits.ToString();
 
     }
-    public void ReduceCount()
+    public void ReduceCount(int amount)
     {
-        Hits -= 1;
+        Hits -= amount;
         if (Hits < 1)
         {
-            Controller.GetComponent<LevelCount>().AddScore();
+            
             Destroy(gameObject.transform.parent.parent.gameObject);
         }
         else
