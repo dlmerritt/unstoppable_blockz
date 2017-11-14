@@ -113,7 +113,7 @@ public class LevelCount : MonoBehaviour {
             currentTime += Time.deltaTime;
             if (currentTime > spawnTime)
             {
-                spawnTime *= .98f;
+                //spawnTime *= .98f;
                 GenerateNewRow();
                 CurrentRow++;
                 SpecialPowerup++;
