@@ -28,13 +28,13 @@ public class Blink : MonoBehaviour {
                 {
                     currentBall = 0;
                 }
-                transform.GetChild(currentBall).GetComponent<SpriteRenderer>().color = Color.blue ;
+                transform.GetChild(currentBall).GetComponent<SpriteRenderer>().color = Color.blue;
                 currentBall++;
                 if (currentBall > transform.childCount - 1)
                 {
                     currentBall = 0;
                 }
-                transform.GetChild(currentBall).GetComponent<SpriteRenderer>().color = Color.red;
+                //transform.GetChild(currentBall).GetComponent<SpriteRenderer>().color = Color.red;
                 currentTime = 0;
             }
         }
