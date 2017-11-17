@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class MenuController : MonoBehaviour {
 
     private const string url = "Put link to something here";
+    private const string twitter_url = "https://twitter.com/u_blockz_game";
 
     public void OnPlayClick()
     {
@@ -20,5 +21,15 @@ public class MenuController : MonoBehaviour {
     public void SoundClick()
     {
 
+    }
+
+    public void OnTwitterLogoCLick()
+    {
+        Application.OpenURL(twitter_url);
+    }
+
+    public void OnShopButtonClick()
+    {
+        SceneManager.LoadScene("shopScene");
     }
 }
