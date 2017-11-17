@@ -10,7 +10,7 @@ public class MenuController : MonoBehaviour {
 
     public void OnPlayClick()
     {
-        SceneManager.LoadScene("Game");
+        SceneManager.LoadScene("gameScene");
     }
 
     public void OnRateClick()
