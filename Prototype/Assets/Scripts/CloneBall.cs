@@ -6,6 +6,13 @@ public class CloneBall : MonoBehaviour
 {
     private BallController controller;
     private Rigidbody2D rigid;
+    private int _damage;
+    public int damage {
+        get { return _damage; }
+        set { _damage = value; }
+    }
+    
+
     private void Start()
     {
         controller = GameObject.FindWithTag("Cloner").GetComponent<BallController>();
@@ -23,7 +30,14 @@ public class CloneBall : MonoBehaviour
 
         rigid.velocity = controller.cloneSpeed * (rigid.velocity.normalized) * controller.speedMultiplier;
     }
-    
+
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("Floor")) {
+            Destroy(gameObject);
+        }
+    }
+
     /*
     private Rigidbody2D rigid;
     public float speed;

@@ -37,12 +37,12 @@ public class PauseMenuController : MonoBehaviour {
 
     }
     
-    public void OnMenuButtonClicked()
+    public void OnMenuButtonClicked(int h)
     {
         SceneManager.LoadScene("menuScene2");
     }
 
-    public void OnRestartButtonClicked()
+    public void OnRestartButtonClicked(int hi)
     {
         SceneManager.LoadScene("Game");
     }

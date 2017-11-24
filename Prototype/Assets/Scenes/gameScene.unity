@@ -1155,8 +1155,6 @@ GameObject:
   - component: {fileID: 499462355}
   - component: {fileID: 499462354}
   - component: {fileID: 499462349}
-  - component: {fileID: 499462352}
-  - component: {fileID: 499462353}
   m_Layer: 0
   m_Name: Ball Cloner
   m_TagString: Cloner
@@ -1224,7 +1222,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 499462348}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.649, z: 0}
+  m_LocalPosition: {x: 0, y: -1.3915, z: 0}
   m_LocalScale: {x: 0.75, y: 0.75, z: 1}
   m_Children:
   - {fileID: 18771138}
@@ -1232,41 +1230,6 @@ Transform:
   m_Father: {fileID: 1377518714}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!50 &499462352
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 499462348}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 0.4
-  m_Material: {fileID: 0}
-  m_Interpolate: 2
-  m_SleepingMode: 1
-  m_CollisionDetection: 1
-  m_Constraints: 4
---- !u!58 &499462353
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 499462348}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 6200000, guid: 52157ecdaae56ff4190040ef4918b07f, type: 2}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0.00058439374, y: 0}
-  serializedVersion: 2
-  m_Radius: 0.07987011
 --- !u!114 &499462354
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1609,7 +1572,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 699481235}
-  - component: {fileID: 699481236}
+  - component: {fileID: 699481237}
   m_Layer: 0
   m_Name: LevelContainer
   m_TagString: Controller
@@ -1624,23 +1587,26 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 699481234}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.63, z: 0}
+  m_LocalPosition: {x: 0, y: 1.65, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &699481236
+--- !u!114 &699481237
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 699481234}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee30ffbd7add2954ba272189ae3581b9, type: 3}
+  m_Script: {fileID: 11500000, guid: d3c3eb2c719b6384391cc09f1beaf2fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rowPrefab: {fileID: 1439861374997916, guid: 91f5336def37b3e48a716d143ad8d902, type: 2}
+  DISTANCE_BETWEEN_BLOCKS: 0.3
+  spawnTime: 1
 --- !u!1 &708369670
 GameObject:
   m_ObjectHideFlags: 0
@@ -2404,7 +2370,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 699481236}
+      - m_Target: {fileID: 0}
         m_MethodName: RecallBalls
         m_Mode: 1
         m_Arguments:
@@ -2656,7 +2622,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1248492872}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.648, z: 0}
+  m_LocalPosition: {x: 0, y: -1.5934, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1377518714}
@@ -2854,7 +2820,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1377518713}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.26, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 499462351}

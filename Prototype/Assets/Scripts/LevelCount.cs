@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class LevelCount : MonoBehaviour {
+public class RowSpawner : MonoBehaviour {
     /*
     public Sprite doubleSprite;
     public Sprite bombSprite;

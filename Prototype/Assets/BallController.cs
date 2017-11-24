@@ -14,6 +14,13 @@ public class BallController : MonoBehaviour
     private MobileInput mInput;
     private Vector3 sd;
 
+
+    private int _damageMultiplier = 1;
+    public int damageMultiplier {
+        get { return _damageMultiplier; }
+        set { _damageMultiplier = value; }
+    }
+
     private float _speedMult = 1;
     public float speedMultiplier
     {
@@ -24,16 +31,6 @@ public class BallController : MonoBehaviour
     // Use this for initialization
     public void changePosition(Vector3 newPosition) {
         transform.position = newPosition;
-    }
-
-
-    
-
-    void Start()
-    {
-        //initialize swipe data to zero
-        sd = Vector3.zero;
-        mInput = GameObject.Find("GameController").GetComponent<MobileInput>();
     }
 
     IEnumerator ballShoot(Vector3 direction)
@@ -48,6 +45,7 @@ public class BallController : MonoBehaviour
             //Send it flying
             bclone.GetComponent<Rigidbody2D>().gravityScale = 0.1f;
             bclone.GetComponent<CloneBall>().SendBallInDirection(direction);
+            bclone.GetComponent<CloneBall>().damage = 1 * damageMultiplier;
             if (first)
             {
                 //Apply logic
@@ -57,6 +55,13 @@ public class BallController : MonoBehaviour
 
         }
     }
+    void Start()
+    {
+        //initialize swipe data to zero
+        sd = Vector3.zero;
+        mInput = GameObject.Find("GameController").GetComponent<MobileInput>();
+    }
+
     // Update is called once per frame
     void LateUpdate()
     {
