@@ -7,7 +7,7 @@ public class RowController : MonoBehaviour {
 
     private void Awake()
     {
-        int randomAmount = Random.Range(0, transform.childCount);
+        int randomAmount = Random.Range(1, transform.childCount);
         for (int i = 0; i < randomAmount; i++)
         {
             int randomChild = Random.Range(0, transform.childCount);
@@ -20,7 +20,13 @@ public class RowController : MonoBehaviour {
         StartCoroutine(infoUpdate());
         
     }
-
+    private void Update()
+    {
+        if (transform.childCount <= 0)
+        {
+            Destroy(gameObject);
+        }
+    }
     IEnumerator infoUpdate() {
         yield return new WaitForEndOfFrame();
         foreach (Transform blockChild in transform)

@@ -9,7 +9,7 @@ public class boxController : MonoBehaviour
     private RowGeneration rowControl;
     private Text lifeText;
     private SpriteRenderer Artwork;
-    private bool alreadyInitialized;
+
     // Use this for initialization
     public void Create()
     {
@@ -21,7 +21,7 @@ public class boxController : MonoBehaviour
         int max = min + 2;
         lives = Random.Range(min, max);
         lifeText.text = lives.ToString();
-        alreadyInitialized = true;
+
 
     }
 
