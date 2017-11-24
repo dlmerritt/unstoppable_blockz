@@ -1152,12 +1152,14 @@ GameObject:
   m_Component:
   - component: {fileID: 499462351}
   - component: {fileID: 499462350}
+  - component: {fileID: 499462355}
+  - component: {fileID: 499462354}
   - component: {fileID: 499462349}
   - component: {fileID: 499462352}
   - component: {fileID: 499462353}
   m_Layer: 0
-  m_Name: Ball
-  m_TagString: Ball
+  m_Name: Ball Cloner
+  m_TagString: Cloner
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1168,27 +1170,11 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 499462348}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 02083e94612e30c4ca04c9648a62e778, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BallClones: {fileID: 1529491827327434, guid: 38b9d49b028dc4842a1ef10583e47e28, type: 2}
-  GameController: {fileID: 699481236}
-  resetPos: {fileID: 1248492873}
-  line: {fileID: 1907750769}
-  speed: 5
-  ballsPreview: {fileID: 1881790886}
-  tutorialContainer: {fileID: 308823111}
-  CurrentBalls: 1
-  touchedFloor: 0
-  speedMultiplier: 2
-  SpeedPowerUpEnabled: 0
-  speedMultiplierTime: 3
-  BombPowerUpEnabled: 0
-  BombMultiplierTime: 3
-  SpeedSlider: {fileID: 107518013}
-  BombSlider: {fileID: 189677315}
 --- !u!212 &499462350
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1281,6 +1267,35 @@ CircleCollider2D:
   m_Offset: {x: 0.00058439374, y: 0}
   serializedVersion: 2
   m_Radius: 0.07987011
+--- !u!114 &499462354
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 499462348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28112841567387d42a8b8db9caefdc3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentPower: 0
+  speedPowerupTimeOut: 5
+--- !u!114 &499462355
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 499462348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65487e5589e675a4cb0e16be4d84ba98, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentBalls: 1
+  ballCloneprefab: {fileID: 1529491827327434, guid: 38b9d49b028dc4842a1ef10583e47e28,
+    type: 2}
+  cloneSpeed: 5
+  gameOver: 0
 --- !u!1 &545484058
 GameObject:
   m_ObjectHideFlags: 0
@@ -1621,23 +1636,11 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 699481234}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ee30ffbd7add2954ba272189ae3581b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  doubleSprite: {fileID: 21300000, guid: 93b77c5f7d97ed4438a08ad1b5ba9762, type: 3}
-  bombSprite: {fileID: 21300000, guid: 68ff1f5fa9e74234ca48d9373e2e425e, type: 3}
-  spawnTime: 5
-  currentBalls: 1
-  currentScoreText: {fileID: 1129276660}
-  rowPrefab: {fileID: 1439861374997916, guid: 91f5336def37b3e48a716d143ad8d902, type: 2}
-  DISTANCE_BETWEEN_BLOCKS: 0.3
-  gameOver: 0
-  BestScore: {fileID: 330407021}
-  EveryLevelforPowerup: 0
-  RecallButton: {fileID: 1155756425}
-  RecallButtonTime: 2
 --- !u!1 &708369670
 GameObject:
   m_ObjectHideFlags: 0

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class DestroyRow : MonoBehaviour {
-
+    /*
 	// Use this for initialization
 	void Awake () {
         int randomChild = Random.Range(0, transform.childCount);
@@ -41,4 +41,5 @@ public class DestroyRow : MonoBehaviour {
             Destroy(gameObject);
         }
 	}
+    */
 }

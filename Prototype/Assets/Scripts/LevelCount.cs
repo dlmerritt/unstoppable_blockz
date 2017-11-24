@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class LevelCount : MonoBehaviour {
+    /*
     public Sprite doubleSprite;
     public Sprite bombSprite;
     public float spawnTime = 5.0f;
@@ -180,4 +181,5 @@ public class LevelCount : MonoBehaviour {
             cBall.GetComponent<CloneBall>().recalled = true;
         }
     }
+    */
 }

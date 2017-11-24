@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 public class CountKeep : MonoBehaviour
 {
+    /*
     public int Hits = 1;
     private LevelCount Controller;
     public bool isBallBlock;
@@ -26,7 +27,7 @@ public class CountKeep : MonoBehaviour
         //objectToChange.transform.localScale = Vector3.one * .37f;
         objectToChange.GetComponent<BoxCollider2D>().offset = new Vector2(0, 0);
         objectToChange.GetComponent<BoxCollider2D>().size = new Vector2(.16f, .16f);
-
+        objectToChange.transform.GetChild(1).GetComponent<SpriteRenderer>().color = Color.black;
 
         Hits = 1;
         GetComponent<Text>().enabled = false;
@@ -41,6 +42,8 @@ public class CountKeep : MonoBehaviour
         //objectToChange.transform.localScale = Vector3.one * .37f;
         objectToChange.GetComponent<BoxCollider2D>().offset = new Vector2(0, 0);
         objectToChange.GetComponent<BoxCollider2D>().size = new Vector2(.16f, .16f);
+        objectToChange.transform.GetChild(1).GetComponent<SpriteRenderer>().color = Color.white;
+        objectToChange.transform.GetChild(1).localScale = Vector3.one * 0.1755045f;
         Hits = 1;
         GetComponent<Text>().enabled = false;
     }
@@ -81,5 +84,6 @@ public class CountKeep : MonoBehaviour
     void Update()
     {
 
-    }
+    
+    */
 }

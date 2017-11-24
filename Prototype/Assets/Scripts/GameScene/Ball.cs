@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 public class Ball : MonoBehaviour
 {
+    /*
     public GameObject BallClones;
     public LevelCount GameController;
     private const float DEADZONE = 30.0f;
@@ -37,7 +38,7 @@ public class Ball : MonoBehaviour
     public bool BombPowerUpEnabled = false;
     public float BombMultiplierTime = 3;
     private float currentBombTime = 0;
-
+    public bool Recalled;
     public GameObject SpeedSlider;
     public GameObject BombSlider;
     Vector3 sd;
@@ -123,6 +124,11 @@ public class Ball : MonoBehaviour
                 sprite.enabled = true;
 
             }
+            if (Recalled)
+            {
+                isBreakingStuff = false;
+                Recalled = false;
+            }
             if (CurrentBalls <= 0 && GameObject.FindGameObjectsWithTag("Clone").Length == 0)
             {
                 if (touchedFloor)
@@ -139,6 +145,7 @@ public class Ball : MonoBehaviour
 
 
             }
+            
         }
 
     }
@@ -218,7 +225,7 @@ public class Ball : MonoBehaviour
                 //ballsPreview.parent.gameObject.SetActive(true);
                 //ballsPreview.localScale = Vector3.Lerp(new Vector3(1, 3, 1), new Vector3(1, 10, 1), sd.magnitude / MAXIMUM_PULL);
                 int totalBricks = GameObject.FindGameObjectsWithTag("Bricks").Length + GameObject.FindGameObjectsWithTag("NewBallBrick").Length;
-                if (mInput.release && totalBricks > 0)
+                if (mInput.release)
                 {
                     line.enabled = false;
                     tutorialContainer.SetActive(false);
@@ -242,10 +249,10 @@ public class Ball : MonoBehaviour
         for (int i = 0; i < GameController.currentBalls; i++)
         {
             int totalBricks = GameObject.FindGameObjectsWithTag("Bricks").Length + GameObject.FindGameObjectsWithTag("NewBallBrick").Length;
-            if (totalBricks <= 0)
-            {
-                break;
-            }
+            //if (totalBricks <= 0)
+            //{
+            //    break;
+            //}
             GameObject bclone = Instantiate(BallClones, currentPos, resetPos.rotation);
             if (BombPowerUpEnabled && first)
             {
@@ -299,6 +306,6 @@ public class Ball : MonoBehaviour
     //Debug.Log("This is working");
     // }
     //   }
-
+    */
 }
 

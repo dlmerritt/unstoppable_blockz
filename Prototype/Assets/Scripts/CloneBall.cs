@@ -4,13 +4,34 @@ using UnityEngine;
 using UnityEngine.UI;
 public class CloneBall : MonoBehaviour
 {
+    private BallController controller;
+    private Rigidbody2D rigid;
+    private void Start()
+    {
+        controller = GameObject.FindWithTag("Cloner").GetComponent<BallController>();
+    }
+    public void SendBallInDirection(Vector3 dir)
+    {
+        Start();
+        rigid = GetComponent<Rigidbody2D>();
+        rigid.velocity = dir * controller.cloneSpeed;
+        rigid.velocity = controller.cloneSpeed * (rigid.velocity.normalized) * controller.speedMultiplier;
+
+    }
+    private void LateUpdate()
+    {
+
+        rigid.velocity = controller.cloneSpeed * (rigid.velocity.normalized) * controller.speedMultiplier;
+    }
+    
+    /*
     private Rigidbody2D rigid;
     public float speed;
     private LevelCount GameController;
     private Text ballAmount;
     public bool passed;
     private float lastPos;
-    Ball MainBall;
+    BallController MainBall;
     public float diff;
     public bool ded;
     private Transform ResetPoint;
@@ -28,7 +49,7 @@ public class CloneBall : MonoBehaviour
         ResetPoint = GameObject.Find("Reset").GetComponent<Transform>();
         GameController = GameObject.FindGameObjectWithTag("Controller").GetComponent<LevelCount>();
         ballAmount = GameObject.FindGameObjectWithTag("BallAmount").GetComponent<Text>();
-        MainBall = GameObject.FindGameObjectWithTag("Ball").GetComponent<Ball>();
+        MainBall = GameObject.FindGameObjectWithTag("Ball").GetComponent<BallController>();
         //currentSpawnY = 0.45f;
         lastPos = transform.position.y;
     }
@@ -110,10 +131,12 @@ public class CloneBall : MonoBehaviour
             if (totalBricks <= 0 || recalled)
             {
                 MainBall.CurrentBalls -= 1;
-                ded = true;
-                passed = true;
-
                 MainBall.touchedFloor = true;
+                MainBall.Recalled = true;
+                //ded = true;
+                //passed = true;
+
+                //MainBall.touchedFloor = true;
 
 
             }
@@ -225,4 +248,5 @@ public class CloneBall : MonoBehaviour
 
         }
     }
+    */
 }
