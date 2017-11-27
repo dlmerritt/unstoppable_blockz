@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class BallController : MonoBehaviour
 {
     public int currentBalls = 1;
@@ -9,13 +8,16 @@ public class BallController : MonoBehaviour
     public float cloneSpeed = 10;
 
     public bool gameOver;
+    private PowerUpController powerUpControl;
+
     private Transform cloneParent;
     private MobileInput mInput;
     private Vector3 sd;
-    
+
     private lineController lineControl;
     private bool _reloaded;
-    public bool reloaded {
+    public bool reloaded
+    {
         get { return _reloaded; }
         set { _reloaded = value; }
     }
@@ -32,16 +34,18 @@ public class BallController : MonoBehaviour
         get { return _speedMult; }
         set { _speedMult = value; }
     }
-    private bool manualReload;
+    private bool _manualReload;
+    public bool manualReload
+    {
+        get { return _manualReload; }
+        set { _manualReload = value; }
+    }
     // Use this for initialization
     public void changePosition(Vector3 newPosition)
     {
         transform.position = newPosition;
     }
-    public void Reload() {
-        reloaded = true;
-        manualReload = true;
-    }
+
     IEnumerator ballShoot(Vector3 direction)
     {
         //hook for first ball
@@ -65,20 +69,23 @@ public class BallController : MonoBehaviour
 
         }
     }
+
     void Start()
     {
-        //initialize swipe data to zero
+        powerUpControl = GetComponent<PowerUpController>();
         sd = Vector3.zero;
         cloneParent = GameObject.Find("Clone Balls").transform;
         lineControl = GetComponent<lineController>();
         mInput = GameObject.Find("GameController").GetComponent<MobileInput>();
-        
+
     }
     private void Update()
     {
-        if (cloneParent.childCount <= 0) {
+
+        if (cloneParent.childCount <= 0)
+        {
             reloaded = true;
-            
+
         }
     }
     // Update is called once per frame
@@ -100,9 +107,27 @@ public class BallController : MonoBehaviour
                         //Start Shooting with delays
                         StartCoroutine(ballShoot(sd.normalized));
                         reloaded = false;
-                        manualReload = false;
+                        if (manualReload)
+                        {
+                            manualReload = false;
+
+                        }
+
+                        switch (powerUpControl.currentPower)
+                        {
+                            case (powerType.speed):
+                                powerUpControl.startSpeed();
+                                break;
+                            case (powerType.bomb):
+                                //bombstuff
+                                powerUpControl.Kaboom();
+                                break;
+
+                        }
+
+
                     }
-                    
+
                 }
 
             }

@@ -802,7 +802,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 258847378}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 499462354}
+        m_MethodName: bombPowerUp
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &258847378
@@ -824,7 +835,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 21300000, guid: e2fb4b79cb4665841b94a51b17412036, type: 3}
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1520,7 +1531,9 @@ MonoBehaviour:
   currentPower: 0
   speedButton: {fileID: 1602062483}
   bombButton: {fileID: 258847377}
+  ReloadButton: {fileID: 1155756425}
   speedPowerupTimeOut: 5
+  buttonReloadTime: 5
 --- !u!114 &499462355
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1532,7 +1545,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65487e5589e675a4cb0e16be4d84ba98, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentBalls: 10
+  currentBalls: 1
   ballCloneprefab: {fileID: 1529491827327434, guid: 38b9d49b028dc4842a1ef10583e47e28,
     type: 2}
   cloneSpeed: 5
@@ -1921,6 +1934,7 @@ GameObject:
   m_Component:
   - component: {fileID: 699481235}
   - component: {fileID: 699481237}
+  - component: {fileID: 699481236}
   m_Layer: 0
   m_Name: LevelContainer
   m_TagString: Controller
@@ -1941,6 +1955,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &699481236
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 699481234}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1af5cc7d741831d4288eb6de34a2ebe9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &699481237
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1955,6 +1980,9 @@ MonoBehaviour:
   rowPrefab: {fileID: 1439861374997916, guid: 91f5336def37b3e48a716d143ad8d902, type: 2}
   DISTANCE_BETWEEN_BLOCKS: 0.3
   spawnTime: 5
+  RowsUntilPowerUp: 1
+  speedSprite: {fileID: 21300000, guid: 93b77c5f7d97ed4438a08ad1b5ba9762, type: 3}
+  bombSprite: {fileID: 21300000, guid: 9403e12dfa1ac5a469c500238de88548, type: 3}
 --- !u!1 &708369670
 GameObject:
   m_ObjectHideFlags: 0
@@ -2870,7 +2898,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 499462355}
+      - m_Target: {fileID: 499462354}
         m_MethodName: Reload
         m_Mode: 1
         m_Arguments:

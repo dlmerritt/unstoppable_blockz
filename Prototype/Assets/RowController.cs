@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RowController : MonoBehaviour {
+public class RowController : MonoBehaviour
+{
     public int randomBlock;
-
+    public powerType makePower;
+    private RowGeneration rowGenerator;
     private void Awake()
     {
         int randomAmount = Random.Range(1, transform.childCount);
@@ -16,9 +18,9 @@ public class RowController : MonoBehaviour {
     }
     private void Start()
     {
-
+        rowGenerator = transform.parent.GetComponent<RowGeneration>();
         StartCoroutine(infoUpdate());
-        
+
     }
     private void Update()
     {
@@ -27,7 +29,8 @@ public class RowController : MonoBehaviour {
             Destroy(gameObject);
         }
     }
-    IEnumerator infoUpdate() {
+    IEnumerator infoUpdate()
+    {
         yield return new WaitForEndOfFrame();
         foreach (Transform blockChild in transform)
         {
@@ -36,6 +39,28 @@ public class RowController : MonoBehaviour {
         //Guarantee of BlockPlus
         randomBlock = Random.Range(0, transform.childCount);
         transform.GetChild(randomBlock).gameObject.GetComponent<boxController>().makeBallBrick();
+
+
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            randomBlock = Random.Range(0, transform.childCount);
+            boxController block = transform.GetChild(randomBlock).gameObject.GetComponent<boxController>();
+            if (block.CompareTag("Bricks"))
+            {
+                switch (makePower)
+                {
+                    case powerType.speed:
+                        block.makeSpeedBrick(rowGenerator.speedSprite);
+                        break;
+                    case powerType.bomb:
+                        block.makeBombBrick(rowGenerator.bombSprite);
+                        break;
+                }
+
+                break;
+            }
+        }
+
 
     }
 }

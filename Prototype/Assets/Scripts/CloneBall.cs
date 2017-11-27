@@ -7,6 +7,7 @@ public class CloneBall : MonoBehaviour
     private BallController controller;
     private Rigidbody2D rigid;
     private int _damage;
+    private bool gameOver;
     public int damage {
         get { return _damage; }
         set { _damage = value; }
@@ -27,8 +28,10 @@ public class CloneBall : MonoBehaviour
     }
     private void LateUpdate()
     {
-
-        rigid.velocity = controller.cloneSpeed * (rigid.velocity.normalized) * controller.speedMultiplier;
+        if (!gameOver)
+        {
+            rigid.velocity = controller.cloneSpeed * (rigid.velocity.normalized) * controller.speedMultiplier;
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D other)
@@ -36,6 +39,14 @@ public class CloneBall : MonoBehaviour
         if (other.gameObject.CompareTag("Floor")) {
             Destroy(gameObject);
         }
+    }
+
+    public void GameOver()
+    {
+        rigid.velocity = Vector3.zero;
+        rigid.gravityScale = 0;
+        rigid.isKinematic = true;
+        gameOver = true;
     }
 
     /*

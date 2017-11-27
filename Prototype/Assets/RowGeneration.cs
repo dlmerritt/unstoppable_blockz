@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RowGeneration : MonoBehaviour {
+public class RowGeneration : MonoBehaviour
+{
     public GameObject rowPrefab;
     public float DISTANCE_BETWEEN_BLOCKS = .3f;
     public float spawnTime = 5.0f;
-
+    public int RowsUntilPowerUp = 5;
+    public Sprite speedSprite;
+    public Sprite bombSprite;
 
     private Vector2 rowContainerStartingPosition;
     private Vector2 desiredPosition;
@@ -33,7 +36,10 @@ public class RowGeneration : MonoBehaviour {
         if (currentTime > spawnTime)
         {
             //spawnTime *= .98f;
+
             GenerateNewRow();
+
+
             /*
             SpecialPowerup++;
             if (SpecialPowerup > EveryLevelforPowerup)
@@ -70,6 +76,14 @@ public class RowGeneration : MonoBehaviour {
 
         desiredPosition = rowContainerStartingPosition + (Vector2.up * currentSpawnY);
         currentRow++;
+        if (currentRow % RowsUntilPowerUp == 0)
+        {
+            int randomAmount = Random.Range(1, 3);
+            if (randomAmount == 1)
+                go.GetComponent<RowController>().makePower = powerType.speed;
+            else
+                go.GetComponent<RowController>().makePower = powerType.bomb;
+        }
     }
     /*
 public Sprite doubleSprite;

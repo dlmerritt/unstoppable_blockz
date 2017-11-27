@@ -4,50 +4,160 @@ using UnityEngine;
 using UnityEngine.UI;
 public enum powerType { none, speed, bomb }
 
-public class PowerUpController : MonoBehaviour {
+public class PowerUpController : MonoBehaviour
+{
 
     public powerType currentPower = powerType.none;
     public Button speedButton;
     public Button bombButton;
-    private float speedMultiplier = 1;
-    private BallController ballControl;
+    public Button ReloadButton;
     public float speedPowerupTimeOut = 5;
+    public float buttonReloadTime = 5;
+    private bool refill;
+    private Image buttonReloadImage;
+    private float currentButtonReloadTime;
+    private powerType lastPower;
+    private BallController ballControl;
+    private bool reserveSpeed;
+    private bool reserveBomb;
     private float currentSpeedTime;
+    public void ReloadSpeed()
+    {
+        if (lastPower == powerType.none || lastPower == powerType.bomb)
+        {
+            if (speedButton)
+            {
+                speedButton.interactable = true;
+                speedButton.gameObject.GetComponent<Image>().fillAmount = 1;
+            }
+        }
+        if (lastPower == powerType.speed)
+        {
+            reserveSpeed = true;
+        }
+    }
+    public void ReloadBomb()
+    {
+        if (lastPower == powerType.none || lastPower == powerType.speed)
+        {
+            if (bombButton)
+            {
+                bombButton.interactable = true;
+                bombButton.gameObject.GetComponent<Image>().fillAmount = 1;
+            }
+            if (lastPower == powerType.bomb)
+            {
+                reserveBomb = true;
+            }
+        }
+    }
     public void speedPowerUp()
     {
         if (currentPower == powerType.none)
         {
-            speedButton.interactable = false;
             currentPower = powerType.speed;
-            ballControl.speedMultiplier = 2;
-            currentSpeedTime = 0;
-            StartCoroutine(speedDisable());
+            speedButton.interactable = false;
+
+        }
+    }
+    public void bombPowerUp()
+    {
+        if (currentPower == powerType.none)
+        {
+            currentPower = powerType.bomb;
+            bombButton.interactable = false;
+
         }
     }
 
-
-    IEnumerator speedDisable()
+    public void startSpeed()
     {
 
-        yield return new WaitForSeconds(speedPowerupTimeOut);
-        ballControl.speedMultiplier = 1;
-        currentPower = powerType.none;
-        //speedButton.interactable = true;
+        ballControl.speedMultiplier = 2;
+        currentSpeedTime = 0;
+        StartCoroutine(speedDisable());
     }
-    // Use this for initialization
-    void Start () {
-        ballControl = GetComponent<BallController>();
+    public void Kaboom()
+    {
+        bombButton.gameObject.GetComponent<Image>().fillAmount = 0;
+        currentPower = powerType.none;
 
     }
-	
-	// Update is called once per frame
-	void Update () {
-        switch (currentPower)
+    IEnumerator speedDisable()
+    {
+        float countDown = speedPowerupTimeOut;
+        lastPower = currentPower;
+        currentPower = powerType.none;
+        while (countDown > 0f)
         {
-            case powerType.speed:
-                currentSpeedTime += Time.deltaTime;
-                speedButton.gameObject.GetComponent<Image>().fillAmount = 1 -  currentSpeedTime / speedPowerupTimeOut;
-                break;
+
+            currentSpeedTime += Time.deltaTime;
+            speedButton.gameObject.GetComponent<Image>().fillAmount = 1 - currentSpeedTime / speedPowerupTimeOut;
+
+            yield return new WaitForEndOfFrame();
+            countDown -= Time.deltaTime;
         }
-	}
+
+        //yield return new WaitForSeconds(speedPowerupTimeOut);
+        ballControl.speedMultiplier = 1;
+        lastPower = powerType.none;
+        currentSpeedTime = 0;
+
+        if (reserveBomb)
+        {
+            ReloadBomb();
+            reserveBomb = false;
+        }
+        if (reserveSpeed)
+        {
+            ReloadSpeed();
+            reserveSpeed = false;
+        }
+        //speedButton.interactable = true;
+    }
+
+    public void Reload()
+    {
+        ReloadButton.interactable = false;
+        buttonReloadImage.fillAmount = 0;
+        refill = true;
+        currentButtonReloadTime = 0;
+        StartCoroutine(inputWait());
+    }
+    IEnumerator inputWait()
+    {
+        yield return new WaitForSeconds(.1f);
+        ballControl.reloaded = true;
+        ballControl.manualReload = true;
+    }
+
+
+
+    // Use this for initialization
+    void Start()
+    {
+        ballControl = GetComponent<BallController>();
+        currentButtonReloadTime = buttonReloadTime;
+        buttonReloadImage = ReloadButton.transform.GetChild(0).GetComponent<Image>();
+        //initialize swipe data to zero
+        ReloadButton.interactable = true;
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+        if (currentButtonReloadTime < buttonReloadTime && refill)
+        {
+            buttonReloadImage.fillAmount = currentButtonReloadTime / buttonReloadTime;
+            currentButtonReloadTime += Time.deltaTime;
+            if (currentButtonReloadTime >= buttonReloadTime)
+            {
+                ReloadButton.interactable = true;
+                currentButtonReloadTime = 0;
+                refill = false;
+            }
+        }
+    }
 }

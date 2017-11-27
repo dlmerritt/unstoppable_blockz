@@ -6,13 +6,17 @@ using UnityEngine.UI;
 public class boxController : MonoBehaviour
 {
     public int lives = 1;
+    
     private RowGeneration rowControl;
     private Text lifeText;
     private SpriteRenderer Artwork;
-
+    private BallController ballControl;
+    private PowerUpController powerUpControl;
     // Use this for initialization
     public void Create()
     {
+        ballControl = GameObject.Find("Ball Cloner").GetComponent<BallController>();
+        powerUpControl = ballControl.GetComponent<PowerUpController>();
         rowControl = GameObject.Find("LevelContainer").GetComponent<RowGeneration>();
         lifeText = transform.GetChild(0).GetChild(0).GetComponent<Text>();
         Artwork = transform.GetChild(1).GetComponent<SpriteRenderer>();
@@ -55,7 +59,36 @@ public class boxController : MonoBehaviour
         tag = "NewBallBrick";
     }
 
-
+    public void makeSpeedBrick(Sprite SpeedSign) {
+        Artwork.sprite = SpeedSign;
+        Artwork.color = Color.black;
+        tag = "DoublePowerUp";
+        lives = 1;
+        lifeText.text = "";
+    }
+    public void makeBombBrick(Sprite BombSign) {
+        Artwork.transform.localScale = Vector3.one * 0.1302038f;
+        Artwork.sprite = BombSign;
+        Artwork.color = Color.white;
+        tag = "BombPowerUp";
+        lifeText.text = "";
+        lives = 1;
+    }
+    public void OnDestroy()
+    {
+        switch (tag)
+        {
+            case "NewBallBrick":
+                ballControl.currentBalls++;
+                break;
+            case "DoublePowerUp":
+                powerUpControl.ReloadSpeed();
+                break;
+            case "BombPowerUp":
+                powerUpControl.ReloadBomb();
+                break;
+        }
+    }
 
     /*
     public int Hits = 1;

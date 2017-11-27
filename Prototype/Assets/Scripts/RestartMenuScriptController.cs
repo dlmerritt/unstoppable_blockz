@@ -7,11 +7,11 @@ public class RestartMenuScriptController : MonoBehaviour {
 
 	public void OnRestartButtonClick()
     {
-        SceneManager.LoadScene("Game");
+        SceneManager.LoadScene("gameScene");
     }
 
     public void OnMenuButtonClick()
     {
-        SceneManager.LoadScene("menuScene2");
+        SceneManager.LoadScene("menuScene");
     }
 }
