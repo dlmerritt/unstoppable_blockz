@@ -7,6 +7,10 @@ public class BallController : MonoBehaviour
     public GameObject ballCloneprefab;
     public float cloneSpeed = 10;
 
+    public float bombRadius = 5;
+    public float bombPower = 10;
+    public GameObject BombPrefab;
+
     public bool gameOver;
     private PowerUpController powerUpControl;
 
