@@ -64,6 +64,9 @@ public class BallController : MonoBehaviour
             {
                 //Apply logic
                 first = false;
+                if (powerUpControl.currentPower == powerType.bomb) {
+                    bclone.GetComponent<CloneBall>().CreateBomb();
+                }
             }
             yield return new WaitForSeconds(0.05f);
 

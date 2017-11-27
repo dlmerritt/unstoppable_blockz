@@ -8,11 +8,51 @@ public class CloneBall : MonoBehaviour
     private Rigidbody2D rigid;
     private int _damage;
     private bool gameOver;
+    private bool isBomb;
     public int damage {
         get { return _damage; }
         set { _damage = value; }
     }
-    
+
+    public void CreateBomb() {
+        isBomb = true;
+    }
+    IEnumerator Explode() {
+        Vector3 explosionPos = transform.position;
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(explosionPos, Bombradius);
+        List<GameObject> toChange = new List<GameObject>();
+        foreach (Collider2D hit in colliders)
+        {
+            GameObject objectHit = hit.gameObject;
+            if (!objectHit.CompareTag("CollisionWalls") && !objectHit.CompareTag("Floor") && !objectHit.CompareTag("Ball") && !objectHit.CompareTag("Clone"))
+            {
+                toChange.Add(objectHit);
+
+                Destroy(objectHit.GetComponent<Rigidbody2D>());
+                Destroy(objectHit.GetComponent<BoxCollider2D>());
+
+
+                objectHit.transform.SetParent(null);
+                objectHit.layer = 0;
+                objectHit.tag = "Ded";
+            }
+
+        }
+        yield return new WaitForFixedUpdate();
+        GameObject Explosion = (GameObject)Instantiate(explosionArt, transform.position, transform.rotation);
+        Destroy(Explosion, 3);
+        foreach (GameObject obj in toChange)
+        {
+            obj.AddComponent<BoxCollider>();
+            obj.AddComponent<Rigidbody>();
+            Rigidbody rb = obj.GetComponent<Rigidbody>();
+            rb.AddExplosionForce(Bombpower, transform.position, Bombradius);
+
+            rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY;
+            Destroy(obj, 4);
+        }
+
+    }
 
     private void Start()
     {
