@@ -39,11 +39,13 @@ public class PauseMenuController : MonoBehaviour {
     
     public void OnMenuButtonClicked()
     {
+        Time.timeScale = 1.0f;
         SceneManager.LoadScene("menuScene");
     }
 
     public void OnRestartButtonClicked()
     {
+        Time.timeScale = 1.0f;
         SceneManager.LoadScene("gameScene");
     }
 }
