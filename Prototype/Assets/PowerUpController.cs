@@ -13,6 +13,9 @@ public class PowerUpController : MonoBehaviour
     public Button ReloadButton;
     public float speedPowerupTimeOut = 5;
     public float buttonReloadTime = 5;
+    public Text BallAmount;
+    public Text Score;
+
     private bool refill;
     private Image buttonReloadImage;
     private float currentButtonReloadTime;
@@ -21,6 +24,11 @@ public class PowerUpController : MonoBehaviour
     private bool reserveSpeed;
     private bool reserveBomb;
     private float currentSpeedTime;
+    public void UpdateBalls() {
+        if(ballControl)
+            BallAmount.text = ballControl.currentBalls.ToString() + " x ";
+        
+    }
     public void ReloadSpeed()
     {
         if (lastPower == powerType.none || lastPower == powerType.bomb)
@@ -141,7 +149,7 @@ public class PowerUpController : MonoBehaviour
         buttonReloadImage = ReloadButton.transform.GetChild(0).GetComponent<Image>();
         //initialize swipe data to zero
         ReloadButton.interactable = true;
-
+        UpdateBalls();
     }
 
     // Update is called once per frame

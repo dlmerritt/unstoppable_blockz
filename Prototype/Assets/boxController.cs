@@ -76,10 +76,13 @@ public class boxController : MonoBehaviour
     }
     public void OnDestroy()
     {
+
         switch (tag)
         {
+            
             case "NewBallBrick":
                 ballControl.currentBalls++;
+                powerUpControl.UpdateBalls();
                 break;
             case "DoublePowerUp":
                 powerUpControl.ReloadSpeed();

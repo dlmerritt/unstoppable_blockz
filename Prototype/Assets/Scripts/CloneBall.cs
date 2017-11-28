@@ -26,7 +26,7 @@ public class CloneBall : MonoBehaviour
             foreach (Collider2D hit in colliders)
             {
                 GameObject objectHit = hit.gameObject;
-                if (!objectHit.CompareTag("CollisionWalls") && !objectHit.CompareTag("Floor") && !objectHit.CompareTag("Ball") && !objectHit.CompareTag("Clone"))
+                if (!objectHit.CompareTag("CollisionWalls") && !objectHit.CompareTag("Floor") && !objectHit.CompareTag("Ball") && !objectHit.CompareTag("Clone") && !objectHit.CompareTag("Cloner"))
                 {
                     toChange.Add(objectHit);
 
@@ -36,7 +36,7 @@ public class CloneBall : MonoBehaviour
 
                     objectHit.transform.SetParent(null);
                     objectHit.layer = 0;
-                    objectHit.tag = "Ded";
+                    //objectHit.tag = "Ded";
                 }
 
             }
@@ -46,6 +46,7 @@ public class CloneBall : MonoBehaviour
             foreach (GameObject obj in toChange)
             {
                 obj.AddComponent<BoxCollider>();
+                obj.GetComponent<BoxCollider>().size = Vector3.one * .1f;
                 obj.AddComponent<Rigidbody>();
                 Rigidbody rb = obj.GetComponent<Rigidbody>();
                 if (rb)
@@ -53,10 +54,11 @@ public class CloneBall : MonoBehaviour
                     rb.AddExplosionForce(controller.bombPower, transform.position, controller.bombRadius);
 
                     rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationY;
-                    Destroy(obj, 4);
+                    Destroy(obj, .5f);
                 }
                 
             }
+            Destroy(gameObject);
         }
 
     }
@@ -98,6 +100,50 @@ public class CloneBall : MonoBehaviour
         rigid.isKinematic = true;
         gameOver = true;
     }
+    /*
+    void CheckBoundary() {
+        if (rowcon.LowestPosition)
+        {
+            //float curlowest = GameController.LowestPosition.transform.position.y - GameController.DISTANCE_BETWEEN_BLOCKS;
+            if (passed)
+            {
+                if (transform.position.y < GameController.LowestPosition.transform.position.y - GameController.DISTANCE_BETWEEN_BLOCKS)
+                {
+                    MainBall.CurrentBalls -= 1;
+                    ded = true;
+                    if (!touchedandPassed)
+                    {
+                        MainBall.touchedFloor = true;
+
+                    }
+                }
+                else
+                {
+                    ded = false;
+                }
+            }
+            else
+            {
+                if (transform.position.y > GameController.LowestPosition.transform.position.y - GameController.DISTANCE_BETWEEN_BLOCKS)
+                {
+                    passed = true;
+                    touchedandPassed = true;
+                }
+                diff = transform.position.y - lastPos;
+                if (diff < 0)
+                {
+                    passed = true;
+                }
+
+
+            }
+        }
+
+        lastPos = transform.position.y;
+    }
+    }
+    */
+
 
     /*
     private Rigidbody2D rigid;
