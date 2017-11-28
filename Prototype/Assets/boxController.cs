@@ -21,7 +21,7 @@ public class boxController : MonoBehaviour
         lifeText = transform.GetChild(0).GetChild(0).GetComponent<Text>();
         Artwork = transform.GetChild(1).GetComponent<SpriteRenderer>();
         lifeText.color = Color.white;
-        int min = rowControl.currentRow;
+        int min = rowControl.currentRow-1;
         int max = min + 2;
         lives = Random.Range(min, max);
         lifeText.text = lives.ToString();
