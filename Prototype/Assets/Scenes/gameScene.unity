@@ -1992,8 +1992,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rowPrefab: {fileID: 1439861374997916, guid: 91f5336def37b3e48a716d143ad8d902, type: 2}
   DISTANCE_BETWEEN_BLOCKS: 0.3
-  spawnTime: 5
-  RowsUntilPowerUp: 1
+  spawnTime: 4
+  RowsUntilPowerUp: 100
   speedSprite: {fileID: 21300000, guid: 93b77c5f7d97ed4438a08ad1b5ba9762, type: 3}
   bombSprite: {fileID: 21300000, guid: 9403e12dfa1ac5a469c500238de88548, type: 3}
 --- !u!1 &708369670
