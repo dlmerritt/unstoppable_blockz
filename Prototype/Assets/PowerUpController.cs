@@ -25,7 +25,7 @@ public class PowerUpController : MonoBehaviour
     private bool reserveBomb;
     private float currentSpeedTime;
     public void UpdateBalls() {
-        if(ballControl)
+        if(ballControl && BallAmount)
             BallAmount.text = ballControl.currentBalls.ToString() + " x ";
         
     }

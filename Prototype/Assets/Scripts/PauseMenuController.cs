@@ -6,32 +6,32 @@ using UnityEngine.SceneManagement;
 
 public class PauseMenuController : MonoBehaviour {
 
-    public CanvasGroup pause_menu;
+    public RectTransform pause_menu;
 
     void Start()
     {
-        pause_menu.alpha = 0;
+        pause_menu.gameObject.SetActive(false);
     }
 
     public void OnPauseButtonClicked()
     {
-        if (pause_menu.alpha == 0)
+        if (pause_menu.gameObject.activeSelf == false)
         {
-            pause_menu.alpha = 1;
+            pause_menu.gameObject.SetActive(true);
             Time.timeScale = 0f;
         }
         else
         {
-            pause_menu.alpha = 0;
+            pause_menu.gameObject.SetActive(false);
             Time.timeScale = 1.0f;
         }
     }
 
     public void OnContinueButtonClicked()
     {
-        if (pause_menu.alpha == 1)
+        if (pause_menu.gameObject.activeSelf == true)
         {
-            pause_menu.alpha = 0;
+            pause_menu.gameObject.SetActive(false);
             Time.timeScale = 1.0f;
         }
 

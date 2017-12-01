@@ -9,7 +9,7 @@ public class RowController : MonoBehaviour
     private RowGeneration rowGenerator;
     private void Awake()
     {
-        int randomAmount = Random.Range(1, transform.childCount);
+        int randomAmount = Random.Range(6, transform.childCount+1);
         for (int i = 0; i < randomAmount; i++)
         {
             int randomChild = Random.Range(0, transform.childCount);
