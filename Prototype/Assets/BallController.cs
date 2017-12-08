@@ -10,15 +10,19 @@ public class BallController : MonoBehaviour
     public float bombRadius = 5;
     public float bombPower = 10;
     public GameObject BombPrefab;
-
+    public GameObject BallGraphics;
     public bool gameOver;
     private PowerUpController powerUpControl;
 
     private Transform cloneParent;
     private MobileInput mInput;
     private Vector3 sd;
-
     private lineController lineControl;
+    private Vector3 _returnPosition;
+    public Vector3 returnPosition {
+        get { return _returnPosition; }
+        set { _returnPosition = value; }
+    }
     private bool _reloaded;
     public bool reloaded
     {
@@ -44,10 +48,22 @@ public class BallController : MonoBehaviour
         get { return _manualReload; }
         set { _manualReload = value; }
     }
+    public bool firstBallReturned = false;
+    private bool allOut = true;
+    private float originalY;
     // Use this for initialization
-    public void changePosition(Vector3 newPosition)
+    public void changePosition(Vector3 pos)
     {
-        transform.position = newPosition;
+        
+        if (!firstBallReturned)
+        {
+            returnPosition = new Vector3(pos.x, originalY, pos.z);
+            BallGraphics.GetComponent<SpriteRenderer>().enabled = true;
+            BallGraphics.transform.position = returnPosition;
+            firstBallReturned = true;
+            
+        }
+        
     }
 
     IEnumerator ballShoot(Vector3 direction)
@@ -55,6 +71,8 @@ public class BallController : MonoBehaviour
         //hook for first ball
         bool first = true;
         //Make balls shoot
+        allOut = false;
+        BallGraphics.GetComponent<SpriteRenderer>().enabled = false;
         for (int i = 0; i < currentBalls; i++)
         {
             //Create object
@@ -66,6 +84,8 @@ public class BallController : MonoBehaviour
             bclone.GetComponent<CloneBall>().damage = 1 * damageMultiplier;
             if (first)
             {
+                firstBallReturned = false;
+                
                 //Apply logic
                 first = false;
                 if (powerUpControl.currentPower == powerType.bomb) {
@@ -75,10 +95,14 @@ public class BallController : MonoBehaviour
             yield return new WaitForSeconds(0.05f);
 
         }
+        allOut = true;
+        //changePosition(transform.position);
     }
 
     void Start()
     {
+        returnPosition = transform.position;
+        originalY = transform.position.y;
         powerUpControl = GetComponent<PowerUpController>();
         sd = Vector3.zero;
         cloneParent = GameObject.Find("Clone Balls").transform;
@@ -93,6 +117,13 @@ public class BallController : MonoBehaviour
         {
             reloaded = true;
 
+        }
+        else {
+            if (firstBallReturned && allOut)
+            {
+
+                transform.position = returnPosition;
+            }
         }
     }
     // Update is called once per frame

@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class LowestRowTrigger : MonoBehaviour
 {
-    private Transform LowestPosition;
+    public Transform LowestPosition;
     private RowGeneration rowInfo;
     private BallController ballControl;
     // Use this for initialization
