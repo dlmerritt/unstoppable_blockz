@@ -1448,7 +1448,7 @@ LineRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 371317457}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_MotionVectors: 0
@@ -2048,6 +2048,7 @@ GameObject:
   - component: {fileID: 699481235}
   - component: {fileID: 699481237}
   - component: {fileID: 699481236}
+  - component: {fileID: 699481238}
   m_Layer: 0
   m_Name: LevelContainer
   m_TagString: Controller
@@ -2097,6 +2098,19 @@ MonoBehaviour:
   RowsUntilPowerUp: 100
   speedSprite: {fileID: 21300000, guid: 93b77c5f7d97ed4438a08ad1b5ba9762, type: 3}
   bombSprite: {fileID: 21300000, guid: 9403e12dfa1ac5a469c500238de88548, type: 3}
+--- !u!114 &699481238
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 699481234}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5f6d718cef7ac14ca15d8bb20022350, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TotalScore: {fileID: 1129276660}
+  score: 1
 --- !u!1 &708369670
 GameObject:
   m_ObjectHideFlags: 0
@@ -2420,7 +2434,7 @@ GameObject:
   - component: {fileID: 823202377}
   m_Layer: 0
   m_Name: Line Controller
-  m_TagString: Untagged
+  m_TagString: Cloner
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2800,7 +2814,7 @@ GameObject:
   - component: {fileID: 927079600}
   m_Layer: 0
   m_Name: Reload Line Controller
-  m_TagString: Untagged
+  m_TagString: Cloner
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5072,7 +5086,7 @@ LineRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1907750767}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_MotionVectors: 0

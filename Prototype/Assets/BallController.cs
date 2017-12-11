@@ -159,7 +159,7 @@ public class BallController : MonoBehaviour
                 reloadBallGraphics.GetComponent<SpriteRenderer>().enabled = true;
             }
             //Check if swipe data is touched and pointing above
-            if (sd != Vector3.zero && sd.y > 1.0f)
+            if (sd != Vector3.zero && sd.y > 30f)
             {
                 if (reloaded || manualReload)
                 {

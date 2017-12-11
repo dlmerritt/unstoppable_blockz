@@ -26,6 +26,7 @@ public class RowController : MonoBehaviour
     {
         if (transform.childCount <= 0)
         {
+            rowGenerator.gameObject.GetComponent<ScoreKeep>().AddScore();
             Destroy(gameObject);
         }
     }
