@@ -11,15 +11,19 @@ public class BallController : MonoBehaviour
     public float bombPower = 10;
     public GameObject BombPrefab;
     public GameObject BallGraphics;
+    public GameObject reloadBallGraphics;
     public bool gameOver;
     private PowerUpController powerUpControl;
 
     private Transform cloneParent;
+    private Transform ignoreClonesParent;
     private MobileInput mInput;
     private Vector3 sd;
-    private lineController lineControl;
+    public lineController lineControl;
+    public lineController reloadLineControl;
     private Vector3 _returnPosition;
-    public Vector3 returnPosition {
+    public Vector3 returnPosition
+    {
         get { return _returnPosition; }
         set { _returnPosition = value; }
     }
@@ -54,16 +58,16 @@ public class BallController : MonoBehaviour
     // Use this for initialization
     public void changePosition(Vector3 pos)
     {
-        
+
         if (!firstBallReturned)
         {
             returnPosition = new Vector3(pos.x, originalY, pos.z);
             BallGraphics.GetComponent<SpriteRenderer>().enabled = true;
             BallGraphics.transform.position = returnPosition;
             firstBallReturned = true;
-            
+
         }
-        
+
     }
 
     IEnumerator ballShoot(Vector3 direction)
@@ -72,29 +76,50 @@ public class BallController : MonoBehaviour
         bool first = true;
         //Make balls shoot
         allOut = false;
-        BallGraphics.GetComponent<SpriteRenderer>().enabled = false;
+        if (!manualReload)
+        {
+            BallGraphics.GetComponent<SpriteRenderer>().enabled = false;
+        }
+        reloadBallGraphics.GetComponent<SpriteRenderer>().enabled = false;
+        Vector3 spawnPos = transform.position;
+        bool mReload = false;
+        if (manualReload)
+        {
+            spawnPos.x = 0;
+            mReload = true;
+
+        }
+
         for (int i = 0; i < currentBalls; i++)
         {
             //Create object
-            GameObject bclone = Instantiate(ballCloneprefab, transform.position, transform.rotation);
+            GameObject bclone = Instantiate(ballCloneprefab, spawnPos, transform.rotation);
             bclone.transform.SetParent(cloneParent);
             //Send it flying
             bclone.GetComponent<Rigidbody2D>().gravityScale = 0.1f;
+            if (mReload)
+            {
+                bclone.transform.SetParent(ignoreClonesParent);
+                bclone.GetComponent<CloneBall>().dummyBall();
+
+            }
             bclone.GetComponent<CloneBall>().SendBallInDirection(direction);
             bclone.GetComponent<CloneBall>().damage = 1 * damageMultiplier;
             if (first)
             {
-                firstBallReturned = false;
-                
+
+
                 //Apply logic
                 first = false;
-                if (powerUpControl.currentPower == powerType.bomb) {
+                if (powerUpControl.currentPower == powerType.bomb)
+                {
                     bclone.GetComponent<CloneBall>().CreateBomb();
                 }
             }
             yield return new WaitForSeconds(0.05f);
 
         }
+        reloadBallGraphics.GetComponent<SpriteRenderer>().enabled = false;
         allOut = true;
         //changePosition(transform.position);
     }
@@ -106,7 +131,7 @@ public class BallController : MonoBehaviour
         powerUpControl = GetComponent<PowerUpController>();
         sd = Vector3.zero;
         cloneParent = GameObject.Find("Clone Balls").transform;
-        lineControl = GetComponent<lineController>();
+        ignoreClonesParent = GameObject.Find("IgnoreCloneBalls").transform;
         mInput = GameObject.Find("GameController").GetComponent<MobileInput>();
 
     }
@@ -116,15 +141,12 @@ public class BallController : MonoBehaviour
         if (cloneParent.childCount <= 0)
         {
             reloaded = true;
+            transform.position = returnPosition;
+            BallGraphics.transform.position = transform.position;
 
         }
-        else {
-            if (firstBallReturned && allOut)
-            {
 
-                transform.position = returnPosition;
-            }
-        }
+
     }
     // Update is called once per frame
     void LateUpdate()
@@ -132,21 +154,41 @@ public class BallController : MonoBehaviour
         if (!gameOver)
         {
             sd = mInput.swipeDelta;
+            if (manualReload)
+            {
+                reloadBallGraphics.GetComponent<SpriteRenderer>().enabled = true;
+            }
             //Check if swipe data is touched and pointing above
             if (sd != Vector3.zero && sd.y > 1.0f)
             {
                 if (reloaded || manualReload)
                 {
-                    lineControl.updateBallView(sd, true);
+                    if (manualReload)
+                    {
+                        reloadLineControl.updateBallView(sd, true);
+                        lineControl.updateBallView(sd, false);
+                    }
+                    else
+                    {
+                        reloadLineControl.updateBallView(sd, false);
+                        lineControl.updateBallView(sd, true);
+                    }
 
                     //Check if finger lifted
                     if (mInput.release)
                     {
                         //Start Shooting with delays
+                        if (!manualReload)
+                        {
+                            firstBallReturned = false;
+                        }
+
                         StartCoroutine(ballShoot(sd.normalized));
+
                         reloaded = false;
                         if (manualReload)
                         {
+
                             manualReload = false;
 
                         }
@@ -172,6 +214,7 @@ public class BallController : MonoBehaviour
             else
             {
                 lineControl.updateBallView(sd, false);
+                reloadLineControl.updateBallView(sd, false);
             }
 
         }

@@ -13,6 +13,7 @@ public class CloneBall : MonoBehaviour
     private RowGeneration rowInfo;
     private float returnVelocity;
     private bool returnBall;
+    private bool neverReturn;
     public int damage
     {
         get { return _damage; }
@@ -85,22 +86,32 @@ public class CloneBall : MonoBehaviour
         rigid.velocity = controller.cloneSpeed * (rigid.velocity.normalized) * controller.speedMultiplier;
 
     }
+    public void dummyBall() {
+        neverReturn = true;
+
+        GetComponent<SpriteRenderer>().color = Color.red;
+        
+    }
     private void FixedUpdate()
     {
         if (!gameOver)
         {
-            if (returnBall) {
+            
+            if (returnBall && !neverReturn)
+            {
                 transform.position = Vector3.Lerp(transform.position, controller.returnPosition, controller.cloneSpeed * 2 * Time.deltaTime);
-                if (Vector3.Distance(transform.position, controller.returnPosition) < .1f) {
+                if (Vector3.Distance(transform.position, controller.returnPosition) < .1f)
+                {
                     Destroy(gameObject);
                 }
             }
-            else if (CheckPassed() && controller.firstBallReturned)
+
+            else if (CheckPassed() && controller.firstBallReturned && !neverReturn)
             {
                 rigid.velocity = Vector2.zero;
                 rigid.isKinematic = true;
                 returnBall = true;
-                
+
             }
             else
             {
@@ -113,18 +124,24 @@ public class CloneBall : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.gameObject.CompareTag("Floor"))
-        {
-
-            
-            controller.changePosition(transform.position);
-
-            Destroy(gameObject);
-        }
         if (isBomb)
         {
             StartCoroutine(Explode());
         }
+
+        
+        if (other.gameObject.CompareTag("Floor"))
+        {
+
+            if (!neverReturn)
+            {
+                controller.changePosition(transform.position);
+            }
+            
+
+            Destroy(gameObject);
+        }
+        
     }
 
     public void GameOver()
@@ -148,6 +165,13 @@ public class CloneBall : MonoBehaviour
             }
 
 
+        }
+        else {
+            if (rigid.velocity.y < 0)
+            {
+                returnVelocity = 2;
+                return true;
+            }
         }
         return false;
     }

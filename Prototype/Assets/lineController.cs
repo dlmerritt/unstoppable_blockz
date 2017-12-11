@@ -6,15 +6,15 @@ public class lineController : MonoBehaviour {
     
     
     public int physicsSteps = 4;
-    private LineRenderer lineView;
+    public LineRenderer lineView;
     private float gravityScale = .1f;
     private Vector3 velocity;
     private Vector3 lastPos;
-    private BallController BallInfo;
+    public BallController BallInfo;
     private void Start()
     {
-        lineView = transform.GetChild(1).GetComponent<LineRenderer>();
-        BallInfo = GetComponent<BallController>();
+        //lineView = transform.GetChild(1).GetComponent<LineRenderer>();
+        //BallInfo = GetComponent<BallController>();
     }
     
     public void updateBallView(Vector3 sd, bool isEnabled)
