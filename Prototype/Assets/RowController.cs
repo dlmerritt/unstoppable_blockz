@@ -7,13 +7,28 @@ public class RowController : MonoBehaviour
     public int randomBlock;
     public powerType makePower;
     private RowGeneration rowGenerator;
+    //private List<int> blocks;
+
     private void Awake()
     {
-        int randomAmount = Random.Range(6, transform.childCount+1);
+        List<int> blocks = new List<int>();
+        int randomAmount = Random.Range(5, transform.childCount+1);
         for (int i = 0; i < randomAmount; i++)
         {
             int randomChild = Random.Range(0, transform.childCount);
-            Destroy(transform.GetChild(randomChild).gameObject);
+            blocks.Add(randomChild);
+            for (int x = 0; x < blocks.Count; x++)
+            {
+                if (blocks[x] == randomChild)
+                {
+                    
+                }
+                else
+                {
+                    Destroy(transform.GetChild(randomChild).gameObject);
+                }
+            }
+            //Destroy(transform.GetChild(randomChild).gameObject);
         }
     }
     private void Start()
