@@ -751,6 +751,37 @@ Prefab:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 114360335515653850, guid: 21f14a6a71a79a54aac485621011eddd,
+        type: 2}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: c36e1eff319e0404c9ef3372428c07d2,
+        type: 3}
+    - target: {fileID: 224722279104855348, guid: 21f14a6a71a79a54aac485621011eddd,
+        type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224722279104855348, guid: 21f14a6a71a79a54aac485621011eddd,
+        type: 2}
+      propertyPath: m_SizeDelta.x
+      value: -10
+      objectReference: {fileID: 0}
+    - target: {fileID: 224722279104855348, guid: 21f14a6a71a79a54aac485621011eddd,
+        type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224722279104855348, guid: 21f14a6a71a79a54aac485621011eddd,
+        type: 2}
+      propertyPath: m_SizeDelta.y
+      value: -10
+      objectReference: {fileID: 0}
+    - target: {fileID: 114762119677096034, guid: 21f14a6a71a79a54aac485621011eddd,
+        type: 2}
+      propertyPath: m_Color.a
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 21f14a6a71a79a54aac485621011eddd, type: 2}
   m_IsPrefabParent: 0

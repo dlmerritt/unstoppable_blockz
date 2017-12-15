@@ -1242,7 +1242,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -8.18}
+  m_AnchoredPosition: {x: -1.4, y: -8.18}
   m_SizeDelta: {x: 40, y: 24.77}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &330407021
@@ -2095,7 +2095,7 @@ MonoBehaviour:
   rowPrefab: {fileID: 1557818194057534, guid: 91f5336def37b3e48a716d143ad8d902, type: 2}
   DISTANCE_BETWEEN_BLOCKS: 0.3
   spawnTime: 4
-  RowsUntilPowerUp: 1
+  RowsUntilPowerUp: 35
   speedSprite: {fileID: 21300000, guid: 93b77c5f7d97ed4438a08ad1b5ba9762, type: 3}
   bombSprite: {fileID: 21300000, guid: 9403e12dfa1ac5a469c500238de88548, type: 3}
 --- !u!114 &699481238
@@ -3930,6 +3930,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1387990263}
   - component: {fileID: 1387990262}
+  - component: {fileID: 1387990264}
   m_Layer: 0
   m_Name: GameController
   m_TagString: Untagged
@@ -3965,6 +3966,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1387990264
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1387990261}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6f77c00aa0faf6468015f750676c958, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bestScoreText: {fileID: 330407021}
 --- !u!1 &1416271358
 GameObject:
   m_ObjectHideFlags: 0
@@ -4020,7 +4033,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_Font: {fileID: 12800000, guid: b706e4018d115db419c5a6ffc2b37fdd, type: 3}
     m_FontSize: 14
     m_FontStyle: 0
     m_BestFit: 0
