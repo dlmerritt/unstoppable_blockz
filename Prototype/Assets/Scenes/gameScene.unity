@@ -1638,8 +1638,8 @@ MonoBehaviour:
   ballCloneprefab: {fileID: 1529491827327434, guid: 38b9d49b028dc4842a1ef10583e47e28,
     type: 2}
   cloneSpeed: 5
-  bombRadius: 5
-  bombPower: 10
+  bombRadius: 0.5
+  bombPower: 1
   BombPrefab: {fileID: 139366, guid: b185c1a9cf067374586d095111b15bd1, type: 2}
   BallGraphics: {fileID: 1169834807}
   reloadBallGraphics: {fileID: 1437395264}
