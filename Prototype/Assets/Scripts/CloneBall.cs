@@ -89,7 +89,7 @@ public class CloneBall : MonoBehaviour
     public void dummyBall() {
         neverReturn = true;
 
-        GetComponent<SpriteRenderer>().color = Color.red;
+        GetComponent<SpriteRenderer>().color = Color.black;
         
     }
     private void FixedUpdate()
