@@ -31,6 +31,19 @@ public class ShopMenuController : MonoBehaviour {
 
 	}
 
+    public void OnBombClicked()
+    {
+
+        Debug.Log("Bomb purchased!");
+
+    }
+
+    public void OnSpeedClicked()
+    {
+
+        Debug.Log("Speed purchased!");
+
+    }
 
 
 }
