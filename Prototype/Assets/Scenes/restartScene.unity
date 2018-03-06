@@ -152,7 +152,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32c856c65114c07469dffbfb36ddc8c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentGameScoreText: {fileID: 392051594}
 --- !u!114 &392051594 stripped
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 114425368876790416, guid: 3234950cb2140b643a8a28fccddb9d25,

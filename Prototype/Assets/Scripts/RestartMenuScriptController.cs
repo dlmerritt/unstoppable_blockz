@@ -6,8 +6,8 @@ using UnityEngine.UI;
 
 public class RestartMenuScriptController : MonoBehaviour {
 
-    private int currentGameScore;
-    public Text currentGameScoreText;
+    //private int currentGameScore;
+    //public Text currentGameScoreText;
 
 	public void OnRestartButtonClick()
     {
@@ -27,9 +27,9 @@ public class RestartMenuScriptController : MonoBehaviour {
     private void Awake()
     {
 
-        currentGameScore = ScoreKeep.score;
+        //currentGameScore = ScoreKeep.score;
 
-        currentGameScoreText.text = currentGameScore.ToString();
+        //currentGameScoreText.text = currentGameScore.ToString();
 
         
 

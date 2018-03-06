@@ -8,16 +8,19 @@ public class LowestRowTrigger : MonoBehaviour
     public Transform LowestPosition;
     private RowGeneration rowInfo;
     private BallController ballControl;
+    private int CurrentScore;
     // Use this for initialization
     void Start()
     {
         ballControl = GameObject.Find("Ball Cloner").GetComponent<BallController>();
         rowInfo = GetComponent<RowGeneration>();
+        CurrentScore = ScoreKeep.score;
     }
 
     // Update is called once per frame
     void Update()
     {
+        CurrentScore = ScoreKeep.score;
         if (transform.childCount > 0)
         {
             LowestPosition = transform.GetChild(0);
@@ -39,7 +42,7 @@ public class LowestRowTrigger : MonoBehaviour
             if (LowestPosition.position.y < (ballControl.transform.position.y + rowInfo.DISTANCE_BETWEEN_BLOCKS))
             {
                 //Debug.Log("Score: " + CurrentScore.ToString());
-                /*
+                
                 int bestScore = PlayerPrefs.GetInt("BestScore", 0);
                 if (CurrentScore > bestScore)
                 {
@@ -52,7 +55,7 @@ public class LowestRowTrigger : MonoBehaviour
                 }
                 PlayerPrefs.SetInt("Score", CurrentScore);
                 PlayerPrefs.Save();
-                */
+                
                 ballControl.gameOver = true;
 
                 Transform cloneBalls = GameObject.Find("Clone Balls").transform;
