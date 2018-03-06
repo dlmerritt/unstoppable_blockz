@@ -76,14 +76,15 @@ public class RowGeneration : MonoBehaviour
 
         desiredPosition = rowContainerStartingPosition + (Vector2.up * currentSpawnY);
         currentRow++;
-        if (currentRow % RowsUntilPowerUp == 0)
-        {
-            int randomAmount = Random.Range(1, 3);
-            if (randomAmount == 1)
-                go.GetComponent<RowController>().makePower = powerType.speed;
-            else
-                go.GetComponent<RowController>().makePower = powerType.bomb;
-        }
+        
+        //if (currentRow % RowsUntilPowerUp == 0)
+        //{
+            //int randomAmount = Random.Range(1, 3);
+            //if (randomAmount == 1)
+                //go.GetComponent<RowController>().makePower = powerType.speed;
+            //else
+                //go.GetComponent<RowController>().makePower = powerType.bomb;
+        //}
     }
     /*
 public Sprite doubleSprite;
